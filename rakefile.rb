@@ -15,7 +15,7 @@ rescue LoadError
 	#no problem, we simply are not in the dependencyChain or generateMigrations build (TeamCity)
 end
 
-SOLUTION			= "database"
+SOLUTION			= "DatabaseMigraine"
 
 task :build_and_test, :test_type, :test_env do |t, args|
 	Rake::Task["build_solution"].invoke
