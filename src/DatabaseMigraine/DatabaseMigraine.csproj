@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{071DC959-B560-472D-802E-510C66F6A267}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DatabaseMigraine</RootNamespace>
+    <AssemblyName>DatabaseMigraine</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChangeSet.cs" />
+    <Compile Include="ConfigFileSaboteur.cs" />
+    <Compile Include="ConnectionHelper.cs" />
+    <Compile Include="ContentViolationException.cs" />
+    <Compile Include="DatabaseChangeSet.cs" />
+    <Compile Include="DatabaseElements\Base.cs" />
+    <Compile Include="DatabaseElements\DatabaseTriggerElement.cs" />
+    <Compile Include="DatabaseElements\DatabaseTriggerElementFactory.cs" />
+    <Compile Include="DatabaseElements\ForeignKeyElement.cs" />
+    <Compile Include="DatabaseElements\ForeignKeyElementFactory.cs" />
+    <Compile Include="DatabaseElements\FunctionElement.cs" />
+    <Compile Include="DatabaseElements\FunctionElementFactory.cs" />
+    <Compile Include="DatabaseElements\IScriptableWrapperFactory.cs" />
+    <Compile Include="DatabaseElements\StoredProcedureElement.cs" />
+    <Compile Include="DatabaseElements\StoredProcedureElementFactory.cs" />
+    <Compile Include="DatabaseElements\TableElement.cs" />
+    <Compile Include="DatabaseElements\TableElementFactory.cs" />
+    <Compile Include="DatabaseElements\TableTriggerElement.cs" />
+    <Compile Include="DatabaseElements\TableTriggerElementFactory.cs" />
+    <Compile Include="DatabaseElements\ViewElement.cs" />
+    <Compile Include="DatabaseElements\ViewElementFactory.cs" />
+    <Compile Include="DbComparer.cs" />
+    <Compile Include="DbParams.cs" />
+    <Compile Include="DbScriptFolderManager.cs" />
+    <Compile Include="DisposableDbManager.cs" />
+    <Compile Include="Folders.cs" />
+    <Compile Include="Managers\ForeignKeyManager.cs" />
+    <Compile Include="Managers\FunctionManager.cs" />
+    <Compile Include="Managers\MigrationManager.cs" />
+    <Compile Include="Managers\StaticDataManager.cs" />
+    <Compile Include="Managers\StoredProcedureManager.cs" />
+    <Compile Include="Managers\TableManager.cs" />
+    <Compile Include="Managers\TriggerManager.cs" />
+    <Compile Include="Managers\UpdatableManager.cs" />
+    <Compile Include="Managers\ViewManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptComparer.cs" />
+    <Compile Include="DatabaseElements\IScriptableDatabaseElementWithName.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SqlExecutor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Formatter\Formatter.csproj">
+      <Project>{FD65ECBC-3E52-471E-B5E5-B90BBB59EB98}</Project>
+      <Name>Formatter</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

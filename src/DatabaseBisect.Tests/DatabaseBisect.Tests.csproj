@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EA7DF6E8-E26C-473E-9123-3CA30D835A53}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DatabaseBisect.Tests</RootNamespace>
+    <AssemblyName>DatabaseBisect.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Acceptance\ClearAndTestBasic.cs" />
+    <Compile Include="Acceptance\ChooseTableTests.cs" />
+    <Content Include="db\fooForFk\00_Database\Database.sql" />
+    <Content Include="db\fooForFk\01_Tables\ForFkTestingBar.sql" />
+    <Content Include="db\fooForFk\01_Tables\ForFkTestingFoo.sql" />
+    <Content Include="db\fooForFk\01_Tables\LnkTesting.sql" />
+    <Content Include="db\fooForFk\02_ForeignKeys\FkTestingFoo.sql" />
+    <Content Include="db\fooForFk\07_StaticData\ForFkTestingBar.sql" />
+    <Content Include="db\fooForFk\07_StaticData\ForFkTestingFoo.sql" />
+    <Content Include="db\fooForFk\07_StaticData\LnkTesting.sql" />
+    <Content Include="db\foo\01_Tables\baz.sql" />
+    <Compile Include="Acceptance\ClearAndTestAndChooseWithFKs.cs" />
+    <Compile Include="Unit\TransformScriptUnitTests.cs" />
+    <Compile Include="Acceptance\DbHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="db\foo\00_Database\Database.sql" />
+    <Content Include="db\foo\01_Tables\bar.sql" />
+    <Content Include="db\foo\01_Tables\foo.sql" />
+    <Content Include="db\foo\07_StaticData\baz.sql" />
+    <Content Include="db\foo\07_StaticData\foo.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseBisect\DatabaseBisect.csproj">
+      <Project>{4F71B2D1-FF48-48E1-BBC2-3092943F3697}</Project>
+      <Name>DatabaseBisect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseMigraine\DatabaseMigraine.csproj">
+      <Project>{071DC959-B560-472D-802E-510C66F6A267}</Project>
+      <Name>DatabaseMigraine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

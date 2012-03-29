@@ -1,0 +1,1 @@
+﻿INSERT INTO LnkTesting (ForFkTestingBarID, ForFkTestingFooID) VALUES(1,1)

@@ -1,0 +1,12 @@
+*ReSharper*
+.idea
+*.user
+*.suo
+obj
+bin
+*~HEAD
+**/*~HEAD
+*.dbmdl
+*.dbproj.*
+/src/player/sql/
+*.dotCover
