@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace DatabaseMigraine
@@ -29,7 +30,13 @@ namespace DatabaseMigraine
 				{
 					string targetFile = Path.Combine(folders.Target, Path.GetFileName(file));
 					if (File.Exists(targetFile)) File.Delete(targetFile);
-					File.Copy(file, targetFile);
+					try {
+						File.Copy(file, targetFile);
+					} catch (PathTooLongException ex) {
+						Directory.Delete(target, true);
+						throw new InvalidOperationException(
+							String.Format("Couldn't copy {0} to {1} because of {2}", file, targetFile, ex.GetType().Name), ex);
+					}
 				}
 
 				foreach (var folder in Directory.GetDirectories(folders.Source))
