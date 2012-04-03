@@ -43,7 +43,8 @@ namespace DatabaseMigraine.Tests
 		private void TestMigration(FileInfo migration, ICollection<string> migrationsAlreadyTested, string baseDbWithNoMigrations)
 		{
 			var tempPath = Path.GetTempPath();
-			var randomDirName = migration.Name + new Random().Next(10000);
+			var randomDirName = "mig" + MigrationManager.GetMigrationId(Path.GetFileNameWithoutExtension(migration.FullName)) + "-" +
+				new Random().Next(10000);
 			var tempDir = Directory.CreateDirectory(Path.Combine(tempPath, randomDirName));
 			var dbTempDirPath = Path.Combine(tempDir.FullName, DbName);
 
