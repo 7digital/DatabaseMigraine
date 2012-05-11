@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using DatabaseMigraine.Managers;
 
 
@@ -13,7 +14,11 @@ namespace DatabaseScripter
 
 		static void Main(string[] args)
 		{
-			_pathToWorkOn = args[0];
+			if (args.Length > 0)
+				_pathToWorkOn = args[0];
+			else
+				_pathToWorkOn = Directory.GetCurrentDirectory();
+
 			var dir = new DirectoryInfo(_pathToWorkOn);
 
 			if (!dir.Exists)
@@ -48,8 +53,7 @@ namespace DatabaseScripter
 					}
 					else
 					{
-						File.Create(Path.Combine(sqlFile.Directory.FullName, "blah.sql"));
-						File.Create(Path.Combine(sqlFile.Directory.FullName, "blah2.sql"));
+						CreateTableWriter.SeparateCreateTableStatementsToSeparateFiles(File.ReadAllText(sqlFile.FullName));
 					}
 				}
 			}
@@ -59,6 +63,9 @@ namespace DatabaseScripter
 				Environment.Exit(2);
 			}
 		}
+
+		
+
 
 		static void Move (FileInfo sourceFileName, string destFileName)
 		{
