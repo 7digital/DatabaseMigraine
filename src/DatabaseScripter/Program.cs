@@ -38,11 +38,18 @@ namespace DatabaseScripter
 				{
 					string targetFilePath = FindDestination(sqlFile);
 
-					if (Directory.Exists(targetFilePath) || File.Exists(targetFilePath))
+					if (String.IsNullOrEmpty(targetFilePath)) {
+						if (Directory.Exists(targetFilePath) || File.Exists(targetFilePath))
+						{
+							Console.Error.WriteLine("Warning, could not move because target file already exists: " + targetFilePath);
+						} else {
+							Move(sqlFile, targetFilePath);
+						}
+					}
+					else
 					{
-						Console.Error.WriteLine("Warning, could not move because target file already exists: " + targetFilePath);
-					} else {
-						Move(sqlFile, targetFilePath);
+						File.Create(Path.Combine(sqlFile.Directory.FullName, "blah.sql"));
+						File.Create(Path.Combine(sqlFile.Directory.FullName, "blah2.sql"));
 					}
 				}
 			}
