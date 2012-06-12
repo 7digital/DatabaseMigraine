@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.SqlServer.Management.Smo;
 using NUnit.Framework;
 
-namespace DatabaseMigraine.Tests
+namespace DatabaseMigraine.Unit.Tests
 {
 	[TestFixture]
 	public class DatabaseCreationWithSuffixTests

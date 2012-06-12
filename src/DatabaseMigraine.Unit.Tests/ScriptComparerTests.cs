@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace DatabaseMigraine.Tests
+namespace DatabaseMigraine.Unit.Tests
 {
 	public class ScriptComparerTests
 	{
