@@ -6,6 +6,7 @@ using NUnit.Framework;
 namespace DatabaseMigraine.Unit.Tests
 {
 	[TestFixture]
+	[Explicit("SQLServer is not installed in the build agents yet")]
 	public class DatabaseCreationWithSuffixTests
 	{
 		protected static DisposableDbManager _disposableDbManager;
