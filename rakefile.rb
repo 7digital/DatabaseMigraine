@@ -19,6 +19,6 @@ SOLUTION			= "DatabaseMigraine"
 
 task :build_and_test, :test_type, :test_env do |t, args|
 	Rake::Task["build_solution"].invoke
-	Rake::Task["run_tests"].invoke(args.test_type, args.test_env)
+	Rake::Task["run_unit_tests"].invoke(args.test_type, args.test_env)
 end
 
