@@ -48,19 +48,22 @@ namespace DatabaseMigraine.Tests
 			var tempDir = Directory.CreateDirectory(Path.Combine(tempPath, randomDirName));
 			var dbTempDirPath = Path.Combine(tempDir.FullName, DbName);
 
+			bool? success = null;
 			try
 			{
 				DatabaseChangeSet changesBetweenMigrationAppliedVersusMerged = 
 					CreateDbWithMigration(migration, migrationsAlreadyTested, baseDbWithNoMigrations, dbTempDirPath);
 
-				if (!changesBetweenMigrationAppliedVersusMerged.IsEmpty)
+				success = changesBetweenMigrationAppliedVersusMerged.IsEmpty;
+				if (!success.Value)
 				{
 					ExplainFailure(changesBetweenMigrationAppliedVersusMerged, migration.Name);
 				}
 			}
 			finally
 			{
-				Directory.Delete(tempDir.FullName, true);
+				if (success == null || success.Value)
+					Directory.Delete(tempDir.FullName, true);
 			}
 		}
 
