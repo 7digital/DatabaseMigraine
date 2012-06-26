@@ -42,12 +42,19 @@ namespace DatabaseMigraine.Managers
 					continue;
 				}
 
-				string contentToWrite = removed.Value.ScriptFileContents.Trim();
-				File.WriteAllText(file, contentToWrite);
+				string contentToRemove = removed.Value.ScriptFileContents.Trim();
+				string currentContent = File.ReadAllText(file).Trim();
 
-				if (File.ReadAllText(file).Trim() == String.Empty)
+				var offSet = currentContent.IndexOf(contentToRemove);
+
+				string contentToWrite = currentContent.Substring(0, offSet) +
+				                        currentContent.Substring(offSet + contentToRemove.Length);
+
+				if (contentToWrite.Trim().Length == 0)
 				{
 					File.Delete(file);
+				} else {
+					File.WriteAllText(file, contentToWrite);
 				}
 			}
 		}
