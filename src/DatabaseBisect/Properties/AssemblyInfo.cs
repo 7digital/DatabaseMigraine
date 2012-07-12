@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("7digital")]
 [assembly: AssemblyProduct("DatabaseBisect")]
-[assembly: AssemblyCopyright("Copyright © 7digital 2011")]
+[assembly: AssemblyCopyright("Copyright © 7digital 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("20272693-d441-4f81-afff-e16cc66aa332")]
+[assembly: Guid("0b9ec992-15d1-4f5f-8ee2-3a5655f9c6c0")]
 
 // Version information for an assembly consists of the following four values:
 //
