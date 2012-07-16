@@ -10,7 +10,6 @@ namespace DatabaseMigraine.Managers
 				TableManager.Instance,
 				ViewManager.Instance,
 				FunctionManager.Instance,
-				TriggerManager.Instance,
 				StoredProcedureManager.Instance,
 			};
 		}
