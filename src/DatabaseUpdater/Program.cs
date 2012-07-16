@@ -52,7 +52,7 @@ namespace DatabaseUpdater
 			int scriptCount = 0;
 			var dbPathTrimmed = dbParams.DbPath.FullName.TrimEnd('/').TrimEnd('\\').ToLower();
 
-			var managers = new List<UpdatableManager> { FunctionManager.Instance, ViewManager.Instance, StoredProcedureManager.Instance };
+			var managers = ChiefExecutive.GetAllUpdatableManagers();
 
 			foreach(var manager in managers)
 			{

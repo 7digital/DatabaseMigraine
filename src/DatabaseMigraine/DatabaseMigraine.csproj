@@ -77,6 +77,7 @@
     <Compile Include="DbScriptFolderManager.cs" />
     <Compile Include="DisposableDbManager.cs" />
     <Compile Include="Folders.cs" />
+    <Compile Include="Managers\ChiefExecutive.cs" />
     <Compile Include="Managers\ForeignKeyManager.cs" />
     <Compile Include="Managers\FunctionManager.cs" />
     <Compile Include="Managers\MigrationManager.cs" />
