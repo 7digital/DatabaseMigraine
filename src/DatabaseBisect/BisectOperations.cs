@@ -41,7 +41,7 @@ namespace DatabaseBisect
 				}
 			}
 			if (highest == null)
-				throw new ArgumentException("These DB doesn't need to be bisected! All tables are empty.", "db");
+				throw new ArgumentException("This DB doesn't need to be bisected! All tables are empty.", "db");
 
 			return db.Tables[highest.Value.Key];
 		}
