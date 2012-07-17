@@ -22,7 +22,6 @@ namespace DatabaseBisect
 			if (!verification.Invoke())
 			{
 				MoveData(db, backupTable, table);
-				backupTable.Drop();
 			}
 		}
 
@@ -30,26 +29,32 @@ namespace DatabaseBisect
 		{
 			var state = new DbState(db);
 
-			var tablesWithForeignKeysLinkingToThem = new HashSet<string>();
+			var candidateTables = new HashSet<string>(state.Keys);
+
 			foreach (Table table in db.Tables)
 			{
 				foreach (ForeignKey fk in table.ForeignKeys)
 				{
-					tablesWithForeignKeysLinkingToThem.Add(fk.ReferencedTable);
+					candidateTables.Remove(fk.ReferencedTable);
+				}
+
+				if (IsBackUpTable(table.Name) || state.Keys.Contains(GetBackupTableName(table.Name)))
+				{
+					candidateTables.Remove(table.Name);
 				}
 			}
 
 
 			KeyValuePair<string, int>? highest = null;
-			foreach (var tableToRowCount in state)
+			foreach (var table in candidateTables)
 			{
-				if (tableToRowCount.Value > 0)
+				var rowCount = state[table];
+				if (state[table] > 0)
 				{
-					if ((highest == null ||
-						 highest.Value.Value < tableToRowCount.Value) && 
-						!tablesWithForeignKeysLinkingToThem.Contains(tableToRowCount.Key))
+					if (highest == null ||
+						highest.Value.Value < rowCount)
 					{
-						highest = tableToRowCount;
+						highest = new KeyValuePair<string, int>(table, rowCount);
 					}
 				}
 			}
@@ -113,6 +118,7 @@ namespace DatabaseBisect
 			return createTableRegex.Replace(afterScript, "CREATE TABLE " + GetBackupTableName (tableName) + "(");
 		}
 
+		//FIXME: maybe I should use a different subschema?
 		public const string BackupSuffix = "_Backup";
 
 		public static bool IsBackUpTable(string tableName)
