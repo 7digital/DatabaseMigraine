@@ -16,7 +16,6 @@ namespace DatabaseMigraine.Unit.Tests
 				TableManager.Instance,
 				ViewManager.Instance,
 				FunctionManager.Instance,
-				TriggerManager.Instance,
 				StoredProcedureManager.Instance,
 			};
 
