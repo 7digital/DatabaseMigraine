@@ -10,7 +10,7 @@ namespace DatabaseBisect
 {
 	public static class BisectOperations
 	{
-		public static void BisectTableOnce(Database db, Table table, Func<bool> verification)
+		public static void BisectTableOnce(Database db, Table table, Func<Database,bool> verification)
 		{
 			string backupTableName = CreateBackupTable(db, table);
 
@@ -19,9 +19,13 @@ namespace DatabaseBisect
 
 			MoveData(db, table, backupTable);
 
-			if (!verification.Invoke())
+			if (!verification.Invoke(db))
 			{
+				DeleteContentsOfTable(db, table);
 				MoveData(db, backupTable, table);
+
+			} else {
+				DeleteContentsOfTable(db, table);
 			}
 		}
 
@@ -77,7 +81,12 @@ namespace DatabaseBisect
 				INSERT INTO {0}({1}) SELECT {1} FROM {2}
 				SET IDENTITY_INSERT {0} OFF";
 			db.ExecuteNonQuery(String.Format(copyToTableSql, destination, commaSeparatedColumns, source.Name));
-			db.ExecuteNonQuery(String.Format("DELETE FROM {0}", source.Name));
+			DeleteContentsOfTable(db, source);
+		}
+
+		private static void DeleteContentsOfTable(Database db, Table table)
+		{
+			db.ExecuteNonQuery(String.Format("DELETE FROM {0}", table.Name));
 		}
 
 		private static bool AreTablesEquivalent(Table source, Table destination)

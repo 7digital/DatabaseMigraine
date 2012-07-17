@@ -29,7 +29,7 @@ namespace DatabaseBisect.Tests.Acceptance
 		private Table AndIPerformTheClearAndTestOperationWithATestThatFails(Database db)
 		{
 			var firstTableToBisect = BisectOperations.ChooseTableToBisect(db);
-			BisectOperations.BisectTableOnce(db, firstTableToBisect, () => false);
+			BisectOperations.BisectTableOnce(db, firstTableToBisect, TestOperationThatFails());
 			return firstTableToBisect;
 		}
 	}

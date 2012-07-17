@@ -105,14 +105,14 @@ namespace DatabaseBisect.Tests.Acceptance
 			Assert.That(new DbState(db).EqualsOriginal(previousState));
 		}
 
-		protected virtual Func<bool> TestOperationThatFails ()
+		protected virtual Func<Database, bool> TestOperationThatFails()
 		{
-			return () => false;
+			return db => false;
 		}
 
-		protected virtual Func<bool> TestOperationThatSucceeds()
+		protected virtual Func<Database,bool> TestOperationThatSucceeds()
 		{
-			return () => true;
+			return db => true;
 		}
 	}
 }
