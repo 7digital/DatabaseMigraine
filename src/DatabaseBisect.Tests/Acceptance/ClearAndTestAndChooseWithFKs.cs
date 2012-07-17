@@ -5,7 +5,6 @@ using NUnit.Framework;
 namespace DatabaseBisect.Tests.Acceptance
 {
 	[TestFixture]
-	[Ignore("WIP, doesn't work yet :(")]
 	public class ClearAndTestAndChooseWithFKs : ClearAndTestBasic
 	{
 		protected override string TestDbName

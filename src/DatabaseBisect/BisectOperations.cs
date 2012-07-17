@@ -29,12 +29,25 @@ namespace DatabaseBisect
 		public static Table ChooseTableToBisect (Database db)
 		{
 			var state = new DbState(db);
+
+			var tablesWithForeignKeysLinkingToThem = new HashSet<string>();
+			foreach (Table t in db.Tables)
+			{
+				foreach (ForeignKey fk in t.ForeignKeys)
+				{
+					tablesWithForeignKeysLinkingToThem.Add(fk.ReferencedTable);
+				}
+			}
+
+
 			KeyValuePair<string, int>? highest = null;
 			foreach (var tableToRowCount in state)
 			{
 				if (tableToRowCount.Value > 0)
 				{
-					if (highest == null || highest.Value.Value < tableToRowCount.Value)
+					if ((highest == null ||
+						 highest.Value.Value < tableToRowCount.Value) && 
+						!tablesWithForeignKeysLinkingToThem.Contains(tableToRowCount.Key))
 					{
 						highest = tableToRowCount;
 					}
