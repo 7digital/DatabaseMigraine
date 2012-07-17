@@ -14,7 +14,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			var db = GivenADisposableDbCreatedForTesting();
 			DbState previousDbState = AndTheDbHasAtLeast2TablesAndSecondOneIsNotEmpty(db);
 			WhenIPerformTheClearAndTestOperationWithATestThatFails(db, AndTheTableIChooseIs(db));
-			ThenTheClearIsRevertedSoTheDbIsInTheSameStateForNonBackupTables(db, previousDbState);
+			ThenTheClearIsRevertedSoTheDbIsInTheSameState(db, previousDbState);
 		}
 
 		[Test]

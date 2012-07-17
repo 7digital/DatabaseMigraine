@@ -103,9 +103,9 @@ namespace DatabaseBisect.Tests.Acceptance
 			BisectOperations.BisectTableOnce(db, table, () => true);
 		}
 
-		internal static void ThenTheClearIsRevertedSoTheDbIsInTheSameStateForNonBackupTables(Database db, DbState previousState)
+		internal static void ThenTheClearIsRevertedSoTheDbIsInTheSameState(Database db, DbState previousState)
 		{
-			Assert.That(new DbState(db).EqualsOriginal(previousState));
+			Assert.That(new DbState(db).Equals(previousState));
 		}
 	}
 }

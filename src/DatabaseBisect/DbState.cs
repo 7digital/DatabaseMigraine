@@ -8,10 +8,6 @@ namespace DatabaseBisect
 {
 	public class DbState : Dictionary<string, int> //nameOfTable,numOfRows
 	{
-		private DbState(IDictionary<string,int> db) : base (db)
-		{
-		}
-
 		public DbState(Database db)
 		{
 			db.Tables.Refresh();
@@ -22,26 +18,6 @@ namespace DatabaseBisect
 				var count = (int)countDataSet.Tables[0].Rows[0][0];
 				Add(element.FullName, count);
 			}
-		}
-
-		public bool EqualsOriginal(DbState other)
-		{
-			var noBackUpTables = new DbState(this);
-			var otherWithNoBackupTables = new DbState(other);
-
-			foreach(var tableName in other.Keys)
-			{
-				if (BisectOperations.IsBackUpTable(tableName))
-					otherWithNoBackupTables.Remove(tableName);
-			}
-
-			foreach (var tableName in this.Keys)
-			{
-				if (BisectOperations.IsBackUpTable(tableName))
-					noBackUpTables.Remove(tableName);
-			}
-
-			return otherWithNoBackupTables.Equals(noBackUpTables);
 		}
 
 		public override bool Equals(object obj)

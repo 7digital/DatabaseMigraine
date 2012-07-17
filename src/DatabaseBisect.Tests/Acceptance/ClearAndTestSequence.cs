@@ -7,6 +7,7 @@ namespace DatabaseBisect.Tests.Acceptance
 	[TestFixture]
 	public class ClearAndTestSequence : DbHelper
 	{
+		[Ignore("Not working yet, WIP")]
 		[Test]
 		public void ChooseTableASecondTimeDoesntChooseSameTableAgain ()
 		{
