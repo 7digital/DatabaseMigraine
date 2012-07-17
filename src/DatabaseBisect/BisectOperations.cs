@@ -31,9 +31,9 @@ namespace DatabaseBisect
 			var state = new DbState(db);
 
 			var tablesWithForeignKeysLinkingToThem = new HashSet<string>();
-			foreach (Table t in db.Tables)
+			foreach (Table table in db.Tables)
 			{
-				foreach (ForeignKey fk in t.ForeignKeys)
+				foreach (ForeignKey fk in table.ForeignKeys)
 				{
 					tablesWithForeignKeysLinkingToThem.Add(fk.ReferencedTable);
 				}
