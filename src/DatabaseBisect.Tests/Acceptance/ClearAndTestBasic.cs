@@ -32,7 +32,7 @@ namespace DatabaseBisect.Tests.Acceptance
 
 		protected virtual Table AndTheTableIChooseIs(Database db)
 		{
-			return db.Tables[1];
+			return db.Tables["baz"];
 		}
 
 	}
