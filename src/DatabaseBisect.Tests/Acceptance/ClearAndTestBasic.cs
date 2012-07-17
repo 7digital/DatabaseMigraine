@@ -7,6 +7,10 @@ namespace DatabaseBisect.Tests.Acceptance
 	[TestFixture]
 	public class ClearAndTestBasic : DbHelper
 	{
+		protected override string TestDbName
+		{
+			get { return "foo"; }
+		}
 
 		[Test]
 		public void BisectRevertsIfVerificationFails ()

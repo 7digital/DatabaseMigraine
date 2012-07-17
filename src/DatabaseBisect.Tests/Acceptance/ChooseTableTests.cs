@@ -7,6 +7,11 @@ namespace DatabaseBisect.Tests.Acceptance
 	[TestFixture]
 	public class ChooseTableTests : DbHelper
 	{
+		protected override string TestDbName
+		{
+			get { return "foo"; }
+		}
+
 		[Test]
 		public void ChooseTableDoesntChooseAnEmptyTable()
 		{

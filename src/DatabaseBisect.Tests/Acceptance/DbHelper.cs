@@ -8,12 +8,9 @@ using NUnit.Framework;
 
 namespace DatabaseBisect.Tests.Acceptance
 {
-	public class DbHelper
+	public abstract class DbHelper
 	{
-		protected virtual string TestDbName
-		{
-			get { return "foo"; }
-		}
+		protected abstract string TestDbName { get; }
 
 		internal Database GivenADisposableDbCreatedForTesting()
 		{
@@ -93,19 +90,29 @@ namespace DatabaseBisect.Tests.Acceptance
 			return state;
 		}
 
-		internal static void WhenIPerformTheClearAndTestOperationWithATestThatFails(Database db, Table table)
+		internal void WhenIPerformTheClearAndTestOperationWithATestThatFails(Database db, Table table)
 		{
-			BisectOperations.BisectTableOnce(db, table, () => false);
+			BisectOperations.BisectTableOnce(db, table, TestOperationThatFails());
 		}
 
-		internal static void WhenIPerformTheClearAndTestOperationWithATestThatPasses(Database db, Table table)
+		internal void WhenIPerformTheClearAndTestOperationWithATestThatPasses(Database db, Table table)
 		{
-			BisectOperations.BisectTableOnce(db, table, () => true);
+			BisectOperations.BisectTableOnce(db, table, TestOperationThatSucceeds());
 		}
 
 		internal static void ThenTheClearIsRevertedSoTheDbIsInTheSameStateForNonBackupTables(Database db, DbState previousState)
 		{
 			Assert.That(new DbState(db).EqualsOriginal(previousState));
+		}
+
+		protected virtual Func<bool> TestOperationThatFails ()
+		{
+			return () => false;
+		}
+
+		protected virtual Func<bool> TestOperationThatSucceeds()
+		{
+			return () => true;
 		}
 	}
 }
