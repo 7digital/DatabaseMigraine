@@ -49,6 +49,7 @@ namespace DatabaseBisect.Tests.Unit
 		public void ExecutorDoesNotBisectTableIfAnalystHasFinished()
 		{
 			var executor = new Executor(new LazyAnalyst(), new WrongBisector());
+			//just making sure this call below doesn't Assert.Fail!
 			executor.BisectDatabase();
 		}
 
