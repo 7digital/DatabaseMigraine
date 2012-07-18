@@ -3,7 +3,6 @@
 namespace DatabaseBisect.Tests.Acceptance
 {
 	[TestFixture]
-	[Ignore("Does not work yet, WIP")]
 	public class BisectDatabaseBasic : DbHelper
 	{
 		protected override string TestDbName

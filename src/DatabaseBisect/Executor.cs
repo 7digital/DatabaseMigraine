@@ -1,4 +1,7 @@
-﻿namespace DatabaseBisect
+﻿using System;
+using Microsoft.SqlServer.Management.Smo;
+
+namespace DatabaseBisect
 {
 	public class Executor
 	{
@@ -11,11 +14,12 @@
 			_bisector = bisector;
 		}
 
-		public void BisectDatabase(IDataBase db)
+		public void BisectDatabase(IDataBase db, Func<IDataBase, bool> testOperation)
 		{
-			var tableToBisect = _analyst.ChooseTableToBisect(null);
-			if (tableToBisect != null) {
-				_bisector.BisectTableOnce(null, tableToBisect, null);
+			Table tableToBisect;
+			while ((tableToBisect = _analyst.ChooseTableToBisect(db)) != null)
+			{
+				_bisector.BisectTableOnce(db, tableToBisect, testOperation);
 			}
 		}
 	}

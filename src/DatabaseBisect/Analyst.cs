@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SqlServer.Management.Common;
@@ -42,7 +42,7 @@ namespace DatabaseBisect
 				}
 			}
 			if (highest == null)
-				throw new ArgumentException("This DB doesn't need to be bisected! All tables are empty.", "db");
+				return null;
 
 			return db.Tables[highest.Value.Key];
 		}

@@ -69,7 +69,6 @@
     <Compile Include="Acceptance\ClearAndTestAndChooseWithFKs.cs" />
     <Compile Include="Acceptance\ClearAndTestSequence.cs" />
     <Compile Include="Acceptance\ClearAndTestWithOperationThatInsertsData.cs" />
-    <Compile Include="Unit\SimpleDatabaseBisect.cs" />
     <Compile Include="Unit\TransformScriptUnitTests.cs" />
     <Compile Include="Acceptance\DbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
