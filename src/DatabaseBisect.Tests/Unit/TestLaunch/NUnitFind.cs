@@ -17,7 +17,7 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			var firstPossibleLocation = nunitFinder.GetNUnitPossibleLocations().FirstOrDefault();
 			Assert.That(firstPossibleLocation, Is.Not.Null);
 			Assert.That(firstPossibleLocation, Is.EqualTo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)));
-			Assert.That(Directory.Exists(firstPossibleLocation));
+			Assert.That(Directory.Exists(firstPossibleLocation), Is.True);
 		}
 
 		class FakeNothingExists : IDirectory
