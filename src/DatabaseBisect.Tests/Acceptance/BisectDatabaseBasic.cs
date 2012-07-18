@@ -31,7 +31,7 @@ namespace DatabaseBisect.Tests.Acceptance
 
 		private void AndIPerformTheBisectDatabaseOperation(IDataBase db)
 		{
-			new Executor(new Analyst(), new Bisector()).BisectDatabase(db, TestOperationThatSucceeds());
+			Executor.Instance.BisectDatabase(db, TestOperationThatSucceeds());
 		}
 	}
 }

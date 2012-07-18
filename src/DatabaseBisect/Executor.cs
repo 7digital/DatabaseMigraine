@@ -8,7 +8,14 @@ namespace DatabaseBisect
 		private readonly IAnalyst _analyst;
 		private readonly IBisector _bisector;
 
-		public Executor(IAnalyst analyst, IBisector bisector)
+		//poor man IOC
+		public static Executor Instance { get; private set; }
+		static Executor ()
+		{
+			Instance = new Executor(new Analyst(), new Bisector());
+		}
+
+		private Executor(IAnalyst analyst, IBisector bisector)
 		{
 			_analyst = analyst;
 			_bisector = bisector;
