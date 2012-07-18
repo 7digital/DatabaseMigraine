@@ -29,7 +29,7 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 
 
 		[Test]
-		public void NUnitIsLookedForInThreePossibleProgramFiles()
+		public void AllPossibleNUnitLocationsMustExist()
 		{
 			var nunitFinder = new NUnitFinder(new FakeNothingExists());
 			var nunitPossibleLocations = nunitFinder.GetNUnitPossibleLocations();
