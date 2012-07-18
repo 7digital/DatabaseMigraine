@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DatabaseMigraine.DatabaseElements;
-using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
 namespace DatabaseBisect
 {
-	public static class BisectOperations
+	public class Bisector
 	{
-		public static void BisectTableOnce(Database db, Table table, Func<Database,bool> verification)
+		public static void BisectTableOnce(IDataBase db, Table table, Func<IDataBase,bool> verification)
 		{
 			string backupTableName = CreateBackupTable(db, table);
 
@@ -29,46 +27,7 @@ namespace DatabaseBisect
 			}
 		}
 
-		public static Table ChooseTableToBisect (Database db)
-		{
-			var state = new DbState(db);
-
-			var candidateTables = new HashSet<string>(state.Keys);
-
-			foreach (Table table in db.Tables)
-			{
-				foreach (ForeignKey fk in table.ForeignKeys)
-				{
-					candidateTables.Remove(fk.ReferencedTable);
-				}
-
-				if (IsBackUpTable(table.Name) || state.Keys.Contains(GetBackupTableName(table.Name)))
-				{
-					candidateTables.Remove(table.Name);
-				}
-			}
-
-
-			KeyValuePair<string, int>? highest = null;
-			foreach (var table in candidateTables)
-			{
-				var rowCount = state[table];
-				if (state[table] > 0)
-				{
-					if (highest == null ||
-						highest.Value.Value < rowCount)
-					{
-						highest = new KeyValuePair<string, int>(table, rowCount);
-					}
-				}
-			}
-			if (highest == null)
-				throw new ArgumentException("This DB doesn't need to be bisected! All tables are empty.", "db");
-
-			return db.Tables[highest.Value.Key];
-		}
-
-		static void MoveData(Database db, Table source, Table destination)
+		static void MoveData(IDataBase db, Table source, Table destination)
 		{
 			if (!AreTablesEquivalent(source, destination))
 			{
@@ -84,7 +43,7 @@ namespace DatabaseBisect
 			DeleteContentsOfTable(db, source);
 		}
 
-		private static void DeleteContentsOfTable(Database db, Table table)
+		private static void DeleteContentsOfTable(IDataBase db, Table table)
 		{
 			db.ExecuteNonQuery(String.Format("DELETE FROM {0}", table.Name));
 		}
@@ -111,12 +70,12 @@ namespace DatabaseBisect
 			return true;
 		}
 
-		private static string CreateBackupTable(Database db, Table table)
+		private static string CreateBackupTable(IDataBase db, Table table)
 		{
 			var script = Base.JoinScriptFragments(table.Script(new ScriptingOptions {DriPrimaryKey = false, Statistics = false}));
 			var scriptForBackupTable = TransformCreationScriptForBackup(script, table.Name);
 			db.ExecuteNonQuery(scriptForBackupTable);
-			return GetBackupTableName(table.Name);
+			return Analyst.GetBackupTableName(table.Name);
 		}
 
 		public static string TransformCreationScriptForBackup(string afterScript, string tableName)
@@ -124,33 +83,7 @@ namespace DatabaseBisect
 			const string anyButCommaOrParenRegex = @"[^,\(\)]";
 			string tableNameRegex = String.Format("({0}*)", anyButCommaOrParenRegex);
 			var createTableRegex = new Regex(String.Format(@"CREATE\s+TABLE\s+{0}\s*\(", tableNameRegex), RegexOptions.IgnoreCase);
-			return createTableRegex.Replace(afterScript, "CREATE TABLE " + GetBackupTableName (tableName) + "(");
-		}
-
-		//FIXME: maybe I should use a different subschema?
-		public const string BackupSuffix = "_Backup";
-
-		public static bool IsBackUpTable(string tableName)
-		{
-			return tableName.EndsWith(BackupSuffix);
-		}
-
-		public static string GetOriginalTable(string tableName)
-		{
-			if (!IsBackUpTable(tableName))
-			{
-				throw new InvalidArgumentException("Table is not a backup table: " + tableName);
-			}
-			return tableName.Substring(0, tableName.IndexOf(BackupSuffix));
-		}
-
-		public static string GetBackupTableName(string tableName)
-		{
-			if (IsBackUpTable(tableName))
-			{
-				throw new InvalidArgumentException("Table is already a backup!: " + tableName);
-			}
-			return tableName + BackupSuffix;
+			return createTableRegex.Replace(afterScript, "CREATE TABLE " + Analyst.GetBackupTableName (tableName) + "(");
 		}
 	}
 }

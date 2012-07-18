@@ -12,9 +12,9 @@ namespace DatabaseBisect.Tests.Acceptance
 			get { return "fooForFk"; }
 		}
 
-		protected override Table AndTheTableIChooseIs(Database db)
+		protected override Table AndTheTableIChooseIs(IDataBase db)
 		{
-			return BisectOperations.ChooseTableToBisect(db);
+			return Analyst.ChooseTableToBisect(db);
 		}
 	}
 }

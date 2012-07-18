@@ -10,7 +10,7 @@ namespace DatabaseBisect.Tests.Acceptance
 	[TestFixture]
 	public class ClearAndTestWithOperationThatInsertsData : ClearAndTestBasic
 	{
-		protected override Func<Database,bool> TestOperationThatFails()
+		protected override Func<IDataBase,bool> TestOperationThatFails()
 		{
 			return db => {
 				InsertSomeDataInBisectedTable(db);
@@ -18,7 +18,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			};
 		}
 
-		protected override Func<Database,bool> TestOperationThatSucceeds()
+		protected override Func<IDataBase,bool> TestOperationThatSucceeds()
 		{
 			return db => {
 				InsertSomeDataInBisectedTable(db);
@@ -26,7 +26,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			};
 		}
 
-		private void InsertSomeDataInBisectedTable(Database db)
+		private void InsertSomeDataInBisectedTable(IDataBase db)
 		{
 			const string insertSql = @"
 				SET IDENTITY_INSERT {0} ON
@@ -35,7 +35,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			db.ExecuteNonQuery(String.Format(insertSql, AndTheTableIChooseIs(db).Name));
 		}
 
-		protected override Table AndTheTableIChooseIs(Database db)
+		protected override Table AndTheTableIChooseIs(IDataBase db)
 		{
 			return db.Tables["baz"];
 		}

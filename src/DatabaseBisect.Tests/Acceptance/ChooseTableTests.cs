@@ -54,12 +54,12 @@ namespace DatabaseBisect.Tests.Acceptance
 			Assert.That(state[table.Name], Is.GreaterThan(0));
 		}
 
-		private Table WhenWeChooseATableToBisect(Database db)
+		private Table WhenWeChooseATableToBisect(IDataBase db)
 		{
-			return BisectOperations.ChooseTableToBisect(db);
+			return Analyst.ChooseTableToBisect(db);
 		}
 
-		private static DbState AndTheDbHasAtLeast2NonEmptyTablesWithDifferentNumberOfRowsAndFirstTableShouldntHaveTheHighestRowCount(Database db)
+		private static DbState AndTheDbHasAtLeast2NonEmptyTablesWithDifferentNumberOfRowsAndFirstTableShouldntHaveTheHighestRowCount(IDataBase db)
 		{
 			var state = new DbState(db);
 			int? firstNonEmptyNumberOfRows = null;

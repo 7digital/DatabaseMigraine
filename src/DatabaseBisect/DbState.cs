@@ -12,7 +12,7 @@ namespace DatabaseBisect
 		{
 		}
 
-		public DbState(Database db)
+		public DbState(IDataBase db)
 		{
 			db.Tables.Refresh();
 			foreach (Table table in db.Tables)
@@ -31,13 +31,13 @@ namespace DatabaseBisect
 
 			foreach(var tableName in other.Keys)
 			{
-				if (BisectOperations.IsBackUpTable(tableName))
+				if (Analyst.IsBackUpTable(tableName))
 					otherWithNoBackupTables.Remove(tableName);
 			}
 
 			foreach (var tableName in this.Keys)
 			{
-				if (BisectOperations.IsBackUpTable(tableName))
+				if (Analyst.IsBackUpTable(tableName))
 					noBackUpTables.Remove(tableName);
 			}
 

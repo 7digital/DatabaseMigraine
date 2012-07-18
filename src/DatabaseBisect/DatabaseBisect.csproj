@@ -40,8 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BisectOperations.cs" />
+    <Compile Include="Analyst.cs" />
+    <Compile Include="Bisector.cs" />
+    <Compile Include="DataBase.cs" />
     <Compile Include="DbState.cs" />
+    <Compile Include="Executor.cs" />
+    <Compile Include="IAnalyst.cs" />
+    <Compile Include="IBisector.cs" />
+    <Compile Include="IDatabase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -21,15 +21,15 @@ namespace DatabaseBisect.Tests.Acceptance
 			ThenTheTableChosenForSecondClearAndTestOperationIsNotTheSame(db, firstTableBisected);
 		}
 
-		private void ThenTheTableChosenForSecondClearAndTestOperationIsNotTheSame(Database db, Table firstTableBisected)
+		private void ThenTheTableChosenForSecondClearAndTestOperationIsNotTheSame(IDataBase db, Table firstTableBisected)
 		{
-			Assert.That(BisectOperations.ChooseTableToBisect(db), Is.Not.EqualTo(firstTableBisected));
+			Assert.That(Analyst.ChooseTableToBisect(db), Is.Not.EqualTo(firstTableBisected));
 		}
 
-		private Table AndIPerformTheClearAndTestOperationWithATestThatFails(Database db)
+		private Table AndIPerformTheClearAndTestOperationWithATestThatFails(IDataBase db)
 		{
-			var firstTableToBisect = BisectOperations.ChooseTableToBisect(db);
-			BisectOperations.BisectTableOnce(db, firstTableToBisect, TestOperationThatFails());
+			var firstTableToBisect = Analyst.ChooseTableToBisect(db);
+			Bisector.BisectTableOnce(db, firstTableToBisect, TestOperationThatFails());
 			return firstTableToBisect;
 		}
 	}

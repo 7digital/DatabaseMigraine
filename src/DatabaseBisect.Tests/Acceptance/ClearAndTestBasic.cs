@@ -30,7 +30,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			ThenOneTableIsClearedAndABackupOfItIsDone(db, previousDbState);
 		}
 
-		protected virtual Table AndTheTableIChooseIs(Database db)
+		protected virtual Table AndTheTableIChooseIs(IDataBase db)
 		{
 			return db.Tables["baz"];
 		}

@@ -11,8 +11,8 @@ namespace DatabaseBisect.Tests.Unit
 		{
 			const string tableName = "Foo";
 			string beforeScript = String.Format("CREATE TABLE {0}(blah blah)", tableName);
-			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + BisectOperations.BackupSuffix);
-			Assert.That(BisectOperations.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
+			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + Analyst.BackupSuffix);
+			Assert.That(Bisector.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
 		}
 
 		[Test]
@@ -20,8 +20,8 @@ namespace DatabaseBisect.Tests.Unit
 		{
 			const string tableName = "Foo";
 			string beforeScript = String.Format("CREATE TABLE [{0}](blah blah)", tableName);
-			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + BisectOperations.BackupSuffix);
-			Assert.That(BisectOperations.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
+			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + Analyst.BackupSuffix);
+			Assert.That(Bisector.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
 		}
 
 		[Test]
@@ -29,8 +29,8 @@ namespace DatabaseBisect.Tests.Unit
 		{
 			const string tableName = "Foo";
 			string beforeScript = String.Format("CREATE TABLE dbo.[{0}](blah blah)", tableName);
-			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + BisectOperations.BackupSuffix);
-			Assert.That(BisectOperations.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
+			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + Analyst.BackupSuffix);
+			Assert.That(Bisector.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
 		}
 
 		[Test]
@@ -38,8 +38,8 @@ namespace DatabaseBisect.Tests.Unit
 		{
 			const string tableName = "Foo";
 			string beforeScript = String.Format("CREATE TABLE [dbo].[{0}](blah blah)", tableName);
-			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + BisectOperations.BackupSuffix);
-			Assert.That(BisectOperations.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
+			string expectedScript = String.Format("CREATE TABLE {0}(blah blah)", tableName + Analyst.BackupSuffix);
+			Assert.That(Bisector.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
 		}
 
 		[Test]
@@ -47,8 +47,8 @@ namespace DatabaseBisect.Tests.Unit
 		{
 			const string tableName = "Foo";
 			string beforeScript = String.Format("CREATE TABLE [dbo].[{0}](FooBar blah blah)", tableName);
-			string expectedScript = String.Format("CREATE TABLE {0}(FooBar blah blah)", tableName + BisectOperations.BackupSuffix);
-			Assert.That(BisectOperations.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
+			string expectedScript = String.Format("CREATE TABLE {0}(FooBar blah blah)", tableName + Analyst.BackupSuffix);
+			Assert.That(Bisector.TransformCreationScriptForBackup(beforeScript, tableName), Is.EqualTo(expectedScript));
 		}
 	}
 }

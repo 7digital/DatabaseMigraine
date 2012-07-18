@@ -12,13 +12,15 @@ namespace DatabaseBisect.Tests.Acceptance
 	{
 		protected abstract string TestDbName { get; }
 
-		internal Database GivenADisposableDbCreatedForTesting()
+		protected Analyst Analyst = new Analyst();
+
+		internal IDataBase GivenADisposableDbCreatedForTesting()
 		{
 			var server = GivenADbServerICanConnectTo();
 			return AndICreateAnEmptyDbOnIt(server);
 		}
 
-		private Database AndICreateAnEmptyDbOnIt(Server server)
+		private IDataBase AndICreateAnEmptyDbOnIt(Server server)
 		{
 			var disposableDbManager = new DisposableDbManager("C:\\SqlData", server, TestDbName);
 			disposableDbManager.AllowCreatingSameDb = true;
@@ -28,7 +30,7 @@ namespace DatabaseBisect.Tests.Acceptance
 
 			var disposableDbName = disposableDbManager.CreateCompleteDisposableDb();
 			server.Refresh();
-			return server.Databases[disposableDbName];
+			return new DataBase (server.Databases[disposableDbName]);
 		}
 
 		internal static Server GivenADbServerICanConnectTo()
@@ -36,7 +38,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			return ConnectionHelper.Connect("(local)", "Trusted_Connection=true;Min Pool Size=5;Max Pool Size=200;");
 		}
 
-		internal static void ThenOneTableIsClearedAndABackupOfItIsDone(Database db, DbState previousState)
+		internal static void ThenOneTableIsClearedAndABackupOfItIsDone(IDataBase db, DbState previousState)
 		{
 			var afterState = new DbState(db);
 			Assert.That(afterState, Is.Not.EqualTo(previousState), "DB state is the same as the previous one, so bisect operation didn't do anything");
@@ -44,16 +46,16 @@ namespace DatabaseBisect.Tests.Acceptance
 			Assert.That(afterState.Keys.Count, Is.EqualTo(previousState.Keys.Count + 1));
 
 			var newTable = GetNewTable(previousState, afterState);
-			Assert.That(BisectOperations.IsBackUpTable(newTable));
+			Assert.That(DatabaseBisect.Analyst.IsBackUpTable(newTable));
 
 			BackupTableShouldHaveSameNumberOfRowsAsOriginalTable(previousState, newTable, afterState);
 
-			Assert.That(afterState[BisectOperations.GetOriginalTable(newTable)], Is.EqualTo(0));
+			Assert.That(afterState[DatabaseBisect.Analyst.GetOriginalTable(newTable)], Is.EqualTo(0));
 		}
 
 		private static void BackupTableShouldHaveSameNumberOfRowsAsOriginalTable(DbState previousState, string newTable, DbState afterState)
 		{
-			Assert.That(afterState[newTable], Is.EqualTo(previousState[BisectOperations.GetOriginalTable(newTable)]));
+			Assert.That(afterState[newTable], Is.EqualTo(previousState[DatabaseBisect.Analyst.GetOriginalTable(newTable)]));
 		}
 
 		private static string GetNewTable(DbState previousState, DbState afterState)
@@ -73,7 +75,7 @@ namespace DatabaseBisect.Tests.Acceptance
 		}
 
 
-		internal static DbState AndTheDbHasAtLeast2TablesAndSecondOneIsNotEmpty(Database db)
+		internal static DbState AndTheDbHasAtLeast2TablesAndSecondOneIsNotEmpty(IDataBase db)
 		{
 			Assert.That(db.Tables.Count, Is.GreaterThan(1));
 			var state = new DbState(db);
@@ -81,7 +83,7 @@ namespace DatabaseBisect.Tests.Acceptance
 			return state;
 		}
 
-		internal static DbState AndTheDbHasAtLeast2TablesAndTheFirstOneIsEmptyAndSecondOneIsNotEmpty(Database db)
+		internal static DbState AndTheDbHasAtLeast2TablesAndTheFirstOneIsEmptyAndSecondOneIsNotEmpty(IDataBase db)
 		{
 			Assert.That(db.Tables.Count, Is.GreaterThan(1));
 			var state = new DbState(db);
@@ -90,27 +92,27 @@ namespace DatabaseBisect.Tests.Acceptance
 			return state;
 		}
 
-		internal void WhenIPerformTheClearAndTestOperationWithATestThatFails(Database db, Table table)
+		internal void WhenIPerformTheClearAndTestOperationWithATestThatFails(IDataBase db, Table table)
 		{
-			BisectOperations.BisectTableOnce(db, table, TestOperationThatFails());
+			Bisector.BisectTableOnce(db, table, TestOperationThatFails());
 		}
 
-		internal void WhenIPerformTheClearAndTestOperationWithATestThatPasses(Database db, Table table)
+		internal void WhenIPerformTheClearAndTestOperationWithATestThatPasses(IDataBase db, Table table)
 		{
-			BisectOperations.BisectTableOnce(db, table, TestOperationThatSucceeds());
+			Bisector.BisectTableOnce(db, table, TestOperationThatSucceeds());
 		}
 
-		internal static void ThenTheClearIsRevertedSoTheDbIsInTheSameStateForNonBackupTables(Database db, DbState previousState)
+		internal static void ThenTheClearIsRevertedSoTheDbIsInTheSameStateForNonBackupTables(IDataBase db, DbState previousState)
 		{
 			Assert.That(new DbState(db).EqualsOriginal(previousState));
 		}
 
-		protected virtual Func<Database, bool> TestOperationThatFails()
+		protected virtual Func<IDataBase, bool> TestOperationThatFails()
 		{
 			return db => false;
 		}
 
-		protected virtual Func<Database,bool> TestOperationThatSucceeds()
+		protected virtual Func<IDataBase,bool> TestOperationThatSucceeds()
 		{
 			return db => true;
 		}
