@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\BisectDatabaseBasic.cs" />
     <Compile Include="Acceptance\ClearAndTestBasic.cs" />
     <Compile Include="Acceptance\ChooseTableTests.cs" />
     <Content Include="db\fooForFk\00_Database\Database.sql" />

@@ -11,7 +11,7 @@
 			_bisector = bisector;
 		}
 
-		public void BisectDatabase()
+		public void BisectDatabase(IDataBase db)
 		{
 			var tableToBisect = _analyst.ChooseTableToBisect(null);
 			if (tableToBisect != null) {

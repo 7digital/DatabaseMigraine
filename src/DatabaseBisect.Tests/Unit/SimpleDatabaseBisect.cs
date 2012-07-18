@@ -14,7 +14,7 @@ namespace DatabaseBisect.Tests.Unit
 			var someAnalyst = new SomeAnalyst();
 			var someBisector = new SomeBisector();
 			var executor = new Executor(someAnalyst, someBisector);
-			executor.BisectDatabase();
+			executor.BisectDatabase(null);
 			Assert.That(someAnalyst.TableChosen, Is.EqualTo(someBisector.TableBisected));
 		}
 
@@ -50,7 +50,7 @@ namespace DatabaseBisect.Tests.Unit
 		{
 			var executor = new Executor(new LazyAnalyst(), new WrongBisector());
 			//just making sure this call below doesn't Assert.Fail!
-			executor.BisectDatabase();
+			executor.BisectDatabase(null);
 		}
 
 		class LazyAnalyst : IAnalyst

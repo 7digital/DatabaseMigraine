@@ -6,7 +6,7 @@ using Microsoft.SqlServer.Management.Smo;
 
 namespace DatabaseBisect
 {
-	public class Bisector
+	public class Bisector : IBisector
 	{
 		public static void BisectTableOnce(IDataBase db, Table table, Func<IDataBase,bool> verification)
 		{
@@ -84,6 +84,11 @@ namespace DatabaseBisect
 			string tableNameRegex = String.Format("({0}*)", anyButCommaOrParenRegex);
 			var createTableRegex = new Regex(String.Format(@"CREATE\s+TABLE\s+{0}\s*\(", tableNameRegex), RegexOptions.IgnoreCase);
 			return createTableRegex.Replace(afterScript, "CREATE TABLE " + Analyst.GetBackupTableName (tableName) + "(");
+		}
+
+		void IBisector.BisectTableOnce(IDataBase db, Table table, Func<IDataBase, bool> verification)
+		{
+			BisectTableOnce(db, table, verification);
 		}
 	}
 }
