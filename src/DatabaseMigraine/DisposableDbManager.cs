@@ -79,7 +79,7 @@ namespace DatabaseMigraine
 				_dbScriptsPath = FindDatabaseScriptsPath(_dbNameInVcs).FullName;
 			Console.WriteLine("Scripts found in {0}", _dbScriptsPath);
 			string disposableDbName = CreateDb(_dbNameInVcs, _dbScriptsPath, true, prefix);
-			Console.WriteLine("Successfully created {0}", _dbNameInVcs);
+			Console.WriteLine("Successfully created {0} database with name {1}", _dbNameInVcs, disposableDbName);
 
 			CreateSchema(_dbScriptsPath, disposableDbName);
 
