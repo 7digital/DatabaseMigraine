@@ -13,8 +13,8 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 		[Test]
 		public void NUnitIsLookedForInDefaultProgramFilesFolderByDefault ()
 		{
-			var nunitFinder = new NUnitFinder(new FakeEverythingExists());
-			var firstPossibleLocation = nunitFinder.GetNUnitPossibleLocations().FirstOrDefault();
+			var nunitFinder = new ProgramFilesFinder(new FakeEverythingExists());
+			var firstPossibleLocation = nunitFinder.GetPossibleLocations().FirstOrDefault();
 			Assert.That(firstPossibleLocation, Is.Not.Null);
 			Assert.That(firstPossibleLocation, Is.EqualTo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)));
 			Assert.That(Directory.Exists(firstPossibleLocation), Is.True);
@@ -32,8 +32,8 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 		[Test]
 		public void AllPossibleNUnitLocationsMustExist()
 		{
-			var nunitFinder = new NUnitFinder(new FakeNothingExists());
-			var nunitPossibleLocations = nunitFinder.GetNUnitPossibleLocations();
+			var nunitFinder = new ProgramFilesFinder(new FakeNothingExists());
+			var nunitPossibleLocations = nunitFinder.GetPossibleLocations();
 			Assert.That(nunitPossibleLocations.Count(), Is.EqualTo(0));
 		}
 
@@ -49,8 +49,8 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 		[Test]
 		public void PossibleNUnitLocationsAfterDefaultAreAllKnownArchs()
 		{
-			var nunitFinder = new NUnitFinder(new FakeEverythingExists());
-			var nunitPossibleLocations = new List<string> (nunitFinder.GetNUnitPossibleLocations());
+			var nunitFinder = new ProgramFilesFinder(new FakeEverythingExists());
+			var nunitPossibleLocations = new List<string> (nunitFinder.GetPossibleLocations());
 			Assert.That(nunitPossibleLocations.Count(), Is.GreaterThan(1));
 			var nunitPossibleLocationsAfterDefault = RemoveFirstElement(nunitPossibleLocations);
 
@@ -76,36 +76,6 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			var newList = new List<string>(nunitPossibleLocations);
 			newList.Remove(nunitPossibleLocations[0]);
 			return newList;
-		}
-	}
-
-	public interface IDirectory
-	{
-		bool Exists(string path);
-	}
-
-	public class NUnitFinder
-	{
-		private readonly IDirectory _directoryService;
-
-		public NUnitFinder (IDirectory directoryService)
-		{
-			_directoryService = directoryService;
-		}
-
-		public IEnumerable<string> GetNUnitPossibleLocations()
-		{
-			var defaultProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-			if (_directoryService.Exists(defaultProgramFiles))
-				yield return defaultProgramFiles;
-
-			var alternative = defaultProgramFiles + " (x86)";
-			if (_directoryService.Exists(alternative))
-				yield return alternative;
-
-			alternative = defaultProgramFiles + " (x64)";
-			if (_directoryService.Exists(alternative))
-				yield return alternative;
 		}
 	}
 }
