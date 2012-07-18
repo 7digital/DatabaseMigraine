@@ -16,18 +16,23 @@ namespace DatabaseBisect.Tests.Acceptance
 		{
 			var db = GivenADisposableDbCreatedForTesting();
 			var originalState = AndTheDbHasAtLeast2TablesAndSecondOneIsNotEmpty(db);
-			AndIPerformTheBisectOperation(db);
-			ThenThereAreAsManyBackUpTablesAsOriginalTables(originalState, db);
+			AndIPerformTheBisectDatabaseOperation(db);
+			ThenMoreThanOneBisectTableOperationHasBeenPerformed(originalState, db);
 		}
 
-		private void ThenThereAreAsManyBackUpTablesAsOriginalTables(DbState originalDbState, IDataBase db)
+		private void ThenMoreThanOneBisectTableOperationHasBeenPerformed(DbState originalDbState, IDataBase db)
 		{
-			Assert.That(new DbState(db).Keys.Count, Is.EqualTo(originalDbState.Keys.Count * 2));
+			ThereIsMoreThanOneBackupTable(originalDbState, db);
 		}
 
-		private void AndIPerformTheBisectOperation(IDataBase db)
+		private void ThereIsMoreThanOneBackupTable(DbState originalDbState, IDataBase db)
 		{
-			new Executor(new Analyst(), new Bisector()).BisectDatabase(db);
+			Assert.That(new DbState(db).Keys.Count, Is.GreaterThan(originalDbState.Keys.Count + 1));
+		}
+
+		private void AndIPerformTheBisectDatabaseOperation(IDataBase db)
+		{
+			new Executor(new Analyst(), new Bisector()).BisectDatabase(db, TestOperationThatSucceeds());
 		}
 	}
 }
