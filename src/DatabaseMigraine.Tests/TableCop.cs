@@ -262,7 +262,7 @@ namespace DatabaseMigraine.Tests
 		public virtual void BeConsistentWrtCaseOfId ()
 		{
 			var counts = new Dictionary<string, List<Column>>();
-			foreach (Table table in DisposableDb.Tables)
+            foreach (Table table in IncludedTables())
 			{
                 foreach (Column column in table.Columns)
 				{
