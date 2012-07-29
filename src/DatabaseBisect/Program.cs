@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace DatabaseBisect
+﻿namespace DatabaseBisect
 {
 	class Program
 	{

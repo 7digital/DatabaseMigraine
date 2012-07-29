@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DatabaseBisect.Tests.Unit.TestLaunch
+namespace DatabaseBisect
 {
 	public class ProgramFilesFinder
 	{
