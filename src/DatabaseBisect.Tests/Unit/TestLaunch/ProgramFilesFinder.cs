@@ -8,10 +8,10 @@ using NUnit.Framework;
 namespace DatabaseBisect.Tests.Unit.TestLaunch
 {
 	[TestFixture]
-	public class NUnitFind
+	public class ProgramFilesFinding
 	{
 		[Test]
-		public void NUnitIsLookedForInDefaultProgramFilesFolderByDefault ()
+		public void DefaultProgramFilesFolderIsGivenAsFirstOptionByDefault ()
 		{
 			var nunitFinder = new ProgramFilesFinder(new FakeEverythingExists());
 			var firstPossibleLocation = nunitFinder.GetPossibleLocations().FirstOrDefault();
