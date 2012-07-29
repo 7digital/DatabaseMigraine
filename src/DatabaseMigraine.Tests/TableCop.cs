@@ -43,14 +43,10 @@ namespace DatabaseMigraine.Tests
 
 		protected static bool StartsWithPrefix(string tableName)
 		{
-			if (DeprecatedPrefixes.Any(tableName.StartsWith))
-			{
-				return true;
-			}
-			return false;
+		    return DeprecatedPrefixes.Any(tableName.StartsWith);
 		}
 
-		[Test]
+	    [Test]
 		public virtual void TableNamesDontHaveDeprecatedPrefix()
 		{
 			foreach (Table table in DisposableDb.Tables)
@@ -199,8 +195,7 @@ namespace DatabaseMigraine.Tests
 				if (!Discard(table.Name) &&
 
 					//TODO: confirm this:
-					!table.Name.StartsWith("dtbl")
-					)
+					!table.Name.StartsWith("dtbl"))
 				{
 					foreach(Column column in table.Columns)
 					{
@@ -259,7 +254,8 @@ namespace DatabaseMigraine.Tests
 		{
 			foreach (Table table in DisposableDb.Tables)
 			{
-				if (Discard(table.Name)) {
+				if (Discard(table.Name)) 
+                {
 					continue;
 				}
 
@@ -290,7 +286,6 @@ namespace DatabaseMigraine.Tests
 						" There is no need to add an extra ID column on top of them.");
 				}
 			}
-
 		}
 
 		[Test]
@@ -299,15 +294,18 @@ namespace DatabaseMigraine.Tests
 			var counts = new Dictionary<string, List<Column>>();
 			foreach (Table table in DisposableDb.Tables)
 			{
-				foreach (Column column in table.Columns)
+                foreach (Column column in table.Columns)
 				{
 					if (column.Name.ToLower().EndsWith("id") &&
 						!column.Name.ToLower().EndsWith("guid"))
 					{
 						string twoChars = column.Name.Substring(column.Name.Length - "id".Length, "id".Length);
-						if (!counts.ContainsKey(twoChars)) {
+						if (!counts.ContainsKey(twoChars)) 
+                        {
 							counts[twoChars] = new List<Column> { column };
-						} else {
+						} 
+                        else 
+                        {
 							counts[twoChars].Add(column);
 						}
 					}
@@ -344,15 +342,13 @@ namespace DatabaseMigraine.Tests
 					{
 						tableName = ((Table) column.Parent).Name;
 					}
-					leastUsed += Environment.NewLine +
-					             String.Format("- Column: {0} in table {1}", column.Name, tableName);
+					leastUsed += Environment.NewLine + String.Format("- Column: {0} in table {1}", column.Name, tableName);
 				}
 			}
 			Assert.That(counts.Keys.Count, Is.EqualTo(1),
 				String.Format("It's not clear if you're using 'ID', 'Id', 'id' or 'iD'. The most used is: '{0}' ({1})." + 
-				              " Least used is '{2}' ({3}) and the occurrences are:{4}", 
-				              maxCount.Key, maxCount.Value.Count, minCount.Key, minCount.Value.Count, leastUsed));
+                    " Least used is '{2}' ({3}) and the occurrences are:{4}", 
+                    maxCount.Key, maxCount.Value.Count, minCount.Key, minCount.Value.Count, leastUsed));
 		}
-
 	}
 }
