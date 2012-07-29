@@ -16,7 +16,6 @@ namespace DatabaseMigraine.DatabaseElements
 
 				yield return new DatabaseTriggerElement(trigger);
 			}
-			yield break;
 		}
 	}
 }

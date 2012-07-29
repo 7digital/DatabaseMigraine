@@ -108,11 +108,13 @@ namespace DatabaseMigraine
 		}
 	}
 
+    [Serializable]
 	public class NoParamsException : Exception
 	{
 	}
 
-	public class InvalidParamException : Exception
+    [Serializable]
+    public class InvalidParamException : Exception
 	{
 		public InvalidParamException(string message): base (message)
 		{

@@ -1,5 +1,4 @@
-﻿
-using Microsoft.SqlServer.Management.Smo;
+﻿using Microsoft.SqlServer.Management.Smo;
 
 namespace DatabaseMigraine.DatabaseElements
 {

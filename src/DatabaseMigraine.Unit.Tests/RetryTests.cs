@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using DatabaseMigraine.Tests;
 using NUnit.Framework;
 
@@ -8,7 +7,6 @@ namespace DatabaseMigraine.Unit.Tests
 	[TestFixture]
 	public class RetryTests
 	{
-
 		[Test]
 		public void Retry_Calls_N_Times_If_Always_Fails()
 		{
@@ -59,6 +57,5 @@ namespace DatabaseMigraine.Unit.Tests
 			Retry.RetryXTimes(times, justThrow, 0);
 			Assert.That(count, Is.EqualTo(n));
 		}
-
 	}
 }

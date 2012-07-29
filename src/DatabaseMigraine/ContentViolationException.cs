@@ -4,7 +4,8 @@ using System.IO;
 
 namespace DatabaseMigraine
 {
-	class ContentViolationException : Exception
+    [Serializable]
+	public class ContentViolationException : Exception
 	{
 		internal ContentViolationException(List<string> scriptFilePaths, string msg, string contentOfFirstElement) :
 			base(String.Format(msg + CombinePaths(scriptFilePaths) +

@@ -19,7 +19,6 @@ namespace DatabaseMigraine.DatabaseElements
 					yield return new ForeignKeyElement(fk);
 				}
 			}
-			yield break;
 		}
 	}
 }
