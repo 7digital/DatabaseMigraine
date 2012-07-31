@@ -12,7 +12,10 @@ namespace DatabaseMigraine.Managers
 {
 	public class MigrationManager : DbScriptFolderManager
 	{
-		public override string FolderName { get { return "09_Migrations"; } }
+	    public override string FolderName
+	    {
+            get { return "09_Migrations"; }
+	    }
 
 		private const int TransactionNameMaxLength = 30;
 		private const string SqlSuffix = ".sql";
@@ -37,7 +40,9 @@ namespace DatabaseMigraine.Managers
 		{
 			var migrationSqlFilesInVcs = GetSqlSriptsIn(dbScriptsPath.FullName);
 			if (!migrationSqlFilesInVcs.Any())
-				yield break;
+			{
+			    yield break;
+			}
 
 			var sqlExecutor = new SqlExecutor(dbServer);
 			CheckIfDatabaseChangeLogTableExists(sqlExecutor, dbname);
@@ -82,10 +87,10 @@ namespace DatabaseMigraine.Managers
 		}
 
 		public override int RunScripts(Server disposableDbServer,
-		                               string dbScriptsPath,
-		                               string dbname,
-		                               string originalDbName,
-		                               IEnumerable<string> scriptFileNameWhiteList)
+		    string dbScriptsPath,
+		    string dbname,
+		    string originalDbName,
+		    IEnumerable<string> scriptFileNameWhiteList)
 		{
 			SqlExecutor = new SqlExecutor(disposableDbServer);
 			if (GetSqlSriptsIn(dbScriptsPath).Any())
@@ -227,9 +232,10 @@ END CATCH
 		internal static string GetInsertStatementForMigration(FileInfo script)
 		{
 			var migrationFileNameWithoutExtension = Path.GetFileNameWithoutExtension(script.FullName);
-			return GetInsertStatementForMigration(GetMigrationId(migrationFileNameWithoutExtension), 
-			                                      migrationFileNameWithoutExtension,
-			                                      GenerateHash(File.ReadAllText(script.FullName)));
+			return GetInsertStatementForMigration(
+                GetMigrationId(migrationFileNameWithoutExtension), 
+                migrationFileNameWithoutExtension,
+                GenerateHash(File.ReadAllText(script.FullName)));
 		}
 
 		public int GenerateMigrationsContentsToDisk (IEnumerable<FileInfo> scripts, DirectoryInfo outPath, string dbname)
@@ -262,7 +268,8 @@ END CATCH
 		{
 			var regex = new Regex(@"(\d+)-(.+)");
 			var match = regex.Match(scriptFileNameWithoutExtension);
-			if (!match.Success) {
+			if (!match.Success) 
+            {
 				throw new FormatException("Filename should have this format: 0123-TheDescriptionOfYourMigration.sql");
 			}
 
