@@ -291,7 +291,7 @@ END CATCH
 			{
 				if (!result.HasRows)
 				{
-					string msg = String.Format("Table {0} not found in your database, please run this script on it:", DatabaseChangeLogTableName);
+                    string msg = String.Format("Table {0} not found in database {1}, please run this script on it:", DatabaseChangeLogTableName, dbname);
 					string script = String.Format(@"
 CREATE TABLE [dbo].[{0}](
 	[ChangeLogId] [INT] NOT NULL,
