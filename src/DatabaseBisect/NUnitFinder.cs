@@ -16,8 +16,11 @@ namespace DatabaseBisect
 
 		public IEnumerable<DirectoryInfo> GetNUnitDirs()
 		{
-			//return Directory.GetFileSystemEntries("C:\\Program Files (x86)", "NUnit*").Select(x => new DirectoryInfo(x));
-			return new[] { new DirectoryInfo("C:\\"), new DirectoryInfo("C:\\") };
+			var programFileFolders = _dirLayer.GetFileSystemEntries("C:\\Program Files");
+			var onlyUnitDirs = programFileFolders
+				.Where(x => x.Contains("NUnit"));
+			var dirInfoObjs = onlyUnitDirs.Select(x => new DirectoryInfo(x));
+			return dirInfoObjs;
 		}
 
 	}

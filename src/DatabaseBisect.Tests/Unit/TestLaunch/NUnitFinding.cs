@@ -10,6 +10,8 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 	[TestFixture]
 	public class NUnitFinding
 	{
+
+
 		class SomeNUnitDirsExist : IDirectory
 		{
 			public bool Exists(string path)
@@ -17,14 +19,18 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 				throw new NotImplementedException(); //doesn't apply for this test
 			}
 
+			internal static string programFiles = "C:\\Program Files";
+			internal static string Nunit24 = programFiles + "\\NUnit 2.4.10";
+			internal static string Nunit25 = programFiles + "\\NUnit 2.5.10";
+
 			public string[] GetFileSystemEntries(string path)
 			{
-				if ("Program Files" == path)
+				if (programFiles == path)
 					return new[]
 						{
-							"C:\\Program Files\\NUnit 2.5.10",
-							"C:\\Program Files\\NUnit 2.4.10",
-							"C:\\Program Files\\Whatever"
+							Nunit24,
+							Nunit25,
+							programFiles + "\\Whatever"
 						};
 				return new string[0];
 			}
@@ -35,7 +41,10 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 		{
 			var dir = GivenThereAreTwoNUnitDirsInProgramFiles();
 			var nunitFinder = new NUnitFinder(dir);
-			Assert.That(nunitFinder.GetNUnitDirs().Count(), Is.EqualTo(2));
+			var nunitDirs = nunitFinder.GetNUnitDirs();
+			Assert.That(nunitDirs.Count(), Is.EqualTo(2));
+			Assert.That(nunitDirs.ElementAt(0).FullName, Is.EqualTo(SomeNUnitDirsExist.Nunit24));
+			Assert.That(nunitDirs.ElementAt(1).FullName, Is.EqualTo(SomeNUnitDirsExist.Nunit25));
 		}
 
 		private IDirectory GivenThereAreTwoNUnitDirsInProgramFiles()
