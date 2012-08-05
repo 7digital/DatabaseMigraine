@@ -26,6 +26,11 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			{
 				return false;
 			}
+
+			public string[] GetFileSystemEntries(string path)
+			{
+				throw new NotImplementedException(); //doesn't apply for this test
+			}
 		}
 
 
@@ -43,6 +48,11 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			public bool Exists(string path)
 			{
 				return true;
+			}
+
+			public string[] GetFileSystemEntries(string path)
+			{
+				throw new NotImplementedException(); //doesn't apply for this test
 			}
 		}
 

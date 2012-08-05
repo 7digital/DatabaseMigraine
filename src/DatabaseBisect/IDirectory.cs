@@ -1,7 +1,9 @@
-namespace DatabaseBisect.Tests.Unit.TestLaunch
+namespace DatabaseBisect
 {
 	public interface IDirectory
 	{
 		bool Exists(string path);
+
+		string[] GetFileSystemEntries (string path);
 	}
 }
