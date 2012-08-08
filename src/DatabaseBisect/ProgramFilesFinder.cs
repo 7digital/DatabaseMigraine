@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DatabaseBisect
 {
-	public class ProgramFilesFinder
+	public class ProgramFilesFinder : IProgramFilesFinder
 	{
 		private readonly IDirectory _directoryService;
 

@@ -9,7 +9,7 @@ namespace DatabaseBisect
 	public class NUnitFinder
 	{
 		private IDirectory _dirLayer;
-		public NUnitFinder(IDirectory dir)
+		public NUnitFinder(IDirectory dir, IProgramFilesFinder programFilesFinder)
 		{
 			this._dirLayer = dir;
 		}

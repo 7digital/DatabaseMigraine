@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
@@ -10,7 +9,15 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 	[TestFixture]
 	public class NUnitFinding
 	{
-
+		class SomeProgramFilesFinder : IProgramFilesFinder
+		{
+			internal static string programFiles = "C:\\Some Wierd Program Files Dir";
+			public IEnumerable<string> GetPossibleLocations()
+			{
+				yield return programFiles;
+				yield break;
+			}
+		}
 
 		class SomeNUnitDirsExist : IDirectory
 		{
@@ -40,11 +47,30 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 		public void FindAllNUnitDirs ()
 		{
 			var dir = GivenThereAreTwoNUnitDirsInProgramFiles();
-			var nunitFinder = new NUnitFinder(dir);
+			var nunitFinder = new NUnitFinder(dir, null);
 			var nunitDirs = nunitFinder.GetNUnitDirs();
 			Assert.That(nunitDirs.Count(), Is.EqualTo(2));
 			Assert.That(nunitDirs.ElementAt(0).FullName, Is.EqualTo(SomeNUnitDirsExist.Nunit24));
 			Assert.That(nunitDirs.ElementAt(1).FullName, Is.EqualTo(SomeNUnitDirsExist.Nunit25));
+		}
+
+		[Test]
+		[Ignore("WIP")]
+		public void AllNUnitDirsHaveProgramFilesSuppliedByCollaborator()
+		{
+			var pgFinder = GivenThereIsAWeirdProgramFilesFolderInTheSystem();
+			var someDirLayer = new SomeNUnitDirsExist();
+			var nunitFinder = new NUnitFinder(someDirLayer, pgFinder);
+			var nunitDirs = nunitFinder.GetNUnitDirs();
+			foreach(var nunitDir in nunitDirs)
+			{
+				Assert.That(nunitDir.FullName, Is.StringStarting(pgFinder.GetPossibleLocations().ElementAt(0)));
+			}
+		}
+
+		private IProgramFilesFinder GivenThereIsAWeirdProgramFilesFolderInTheSystem()
+		{
+			return new SomeProgramFilesFinder();
 		}
 
 		private IDirectory GivenThereAreTwoNUnitDirsInProgramFiles()
