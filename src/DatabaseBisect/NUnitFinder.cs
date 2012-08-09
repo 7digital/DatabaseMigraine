@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace DatabaseBisect
 {
 	public class NUnitFinder
 	{
-		private IDirectory _dirLayer;
+		private readonly IDirectory _dirLayer;
+		private readonly IProgramFilesFinder _programFilesFinder;
 		public NUnitFinder(IDirectory dir, IProgramFilesFinder programFilesFinder)
 		{
+			this._programFilesFinder = programFilesFinder;
 			this._dirLayer = dir;
 		}
 
 		public IEnumerable<DirectoryInfo> GetNUnitDirs()
 		{
-			var programFileFolders = _dirLayer.GetFileSystemEntries("C:\\Program Files");
-			var onlyUnitDirs = programFileFolders
-				.Where(x => x.Contains("NUnit"));
-			var dirInfoObjs = onlyUnitDirs.Select(x => new DirectoryInfo(x));
-			return dirInfoObjs;
+			return
+				from programFileFolder in _programFilesFinder.GetPossibleLocations()
+					from fileSystemEntry in _dirLayer.GetFileSystemEntries(programFileFolder)
+						where fileSystemEntry.Contains("NUnit") && _dirLayer.Exists(fileSystemEntry)
+							select new DirectoryInfo(fileSystemEntry);
 		}
-
 	}
 }
