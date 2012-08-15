@@ -176,7 +176,7 @@ namespace DatabaseMigraine.Tests
 
 		[Test]
 		[Ignore("We haven't figured out yet what will be the process for the migrations to be reviewed")]
-		public void ChechMigrationPolicies()
+		public void CheckMigrationPolicies()
 		{
 			_dbPath = DisposableDbManager.FindDatabaseScriptsPath(DbName);
 
