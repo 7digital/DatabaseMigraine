@@ -162,14 +162,10 @@ namespace DatabaseMigraine.Tests
 		private readonly string[] _migrationStringContainingPolicies = new []
 		{
 			//because we want devs to be checking with DBAs about their migration ASAP:
-			"http://tickets.7digital.local/issues/",
-			"http://tickets/issues/",
+			"http://some.address.of.a.ticketing.system/",
 
 			//because DBAs can do migrations without approval:
-			"cameron@",
-			"cameron.sinclair",
-			"dean@",
-			"dean.denton"
+			"some.email.address.of.a.dba??@foo.corp",
 		};
 
 		private readonly string[] _migrationPolicies = new[]
@@ -180,7 +176,7 @@ namespace DatabaseMigraine.Tests
 
 		[Test]
 		[Ignore("We haven't figured out yet what will be the process for the migrations to be reviewed")]
-		public void ChechMigrationPolicies()
+		public void CheckMigrationPolicies()
 		{
 			_dbPath = DisposableDbManager.FindDatabaseScriptsPath(DbName);
 

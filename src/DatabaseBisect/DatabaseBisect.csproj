@@ -49,7 +49,11 @@
     <Compile Include="IAnalyst.cs" />
     <Compile Include="IBisector.cs" />
     <Compile Include="IDatabase.cs" />
+    <Compile Include="IDirectory.cs" />
+    <Compile Include="IProgramFilesFinder.cs" />
+    <Compile Include="NUnitFinder.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramFilesFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

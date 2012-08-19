@@ -68,6 +68,8 @@
     <Compile Include="Acceptance\ClearAndTestAndChooseWithFKs.cs" />
     <Compile Include="Acceptance\ClearAndTestSequence.cs" />
     <Compile Include="Acceptance\ClearAndTestWithOperationThatInsertsData.cs" />
+    <Compile Include="Unit\TestLaunch\NUnitFinding.cs" />
+    <Compile Include="Unit\TestLaunch\ProgramFilesFinder.cs" />
     <Compile Include="Unit\TransformScriptUnitTests.cs" />
     <Compile Include="Acceptance\DbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -247,7 +247,7 @@ END CATCH
 				var migrationToRun = GenerateMigrationFor(SqlExecutor, migrationName, File.ReadAllText(script.FullName), dbname);
 				if (migrationToRun == null || String.IsNullOrEmpty(migrationToRun.ScriptContent))
 				{
-					Console.WriteLine("Skipping migration {0} because it's already run in this environment", migrationName);
+					Console.WriteLine("Skipping migration {0} because it (or an equivalent one) has already run in this environment", migrationName);
 					continue;
 				}
 
