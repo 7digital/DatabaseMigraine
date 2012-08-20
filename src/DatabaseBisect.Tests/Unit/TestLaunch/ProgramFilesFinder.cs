@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,7 +32,6 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			}
 		}
 
-
 		[Test]
 		public void AllPossibleNUnitLocationsMustExist()
 		{
@@ -41,7 +39,6 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			var nunitPossibleLocations = nunitFinder.GetPossibleLocations();
 			Assert.That(nunitPossibleLocations.Count(), Is.EqualTo(0));
 		}
-
 
 		class FakeEverythingExists : IDirectory
 		{
@@ -77,7 +74,7 @@ namespace DatabaseBisect.Tests.Unit.TestLaunch
 			{
 				var expected = expectedPossibleLocationsAfterDefault[i];
 				Assert.That(nunitPossibleLocationsAfterDefault.ElementAt(i), Is.EqualTo(expected),
-				            String.Format("Incorrect possible nunit location at iteration number {0}", i + 1));
+					String.Format("Incorrect possible nunit location at iteration number {0}", i + 1));
 			}
 		}
 

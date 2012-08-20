@@ -43,23 +43,23 @@ namespace DatabaseMigraine.Tests
 
 		protected static bool StartsWithPrefix(string tableName)
 		{
-		    return DeprecatedPrefixes.Any(tableName.StartsWith);
+			return DeprecatedPrefixes.Any(tableName.StartsWith);
 		}
 
-	    [Test]
+		[Test]
 		public virtual void TableNamesDontHaveDeprecatedPrefix()
 		{
-            foreach (Table table in IncludedTables())
+			foreach (Table table in IncludedTables())
 			{
-                Assert.That(StartsWithPrefix(table.Name), Is.False, "Table name shouldn't start with a deprecated prefix: " + table.Name);
+				Assert.That(StartsWithPrefix(table.Name), Is.False, "Table name shouldn't start with a deprecated prefix: " + table.Name);
 			}
 		}
 
 		[Test]
 		public void TablesDontHaveSmellyNames()
 		{
-            foreach (Table table in IncludedTables())
-            {
+			foreach (Table table in IncludedTables())
+			{
 				Assert.That(table.Name, Is.Not.StringEnding("2"));
 				Assert.That(table.Name.ToLower(), Is.Not.StringEnding("old"));
 			}
@@ -68,8 +68,8 @@ namespace DatabaseMigraine.Tests
 		[Test]
 		public void TableNamesDontHaveUnderscores()
 		{
-            foreach (Table table in IncludedTables())
-            {
+			foreach (Table table in IncludedTables())
+			{
 				Assert.That(table.Name, Is.Not.StringContaining("_"),
 					"Table names follow pascal notation, don't include underscores please: " + table.Name);
 			}
@@ -80,10 +80,10 @@ namespace DatabaseMigraine.Tests
 		[Ignore("Not yet ready, SQL standard approval?")]
 		public virtual void TableNamesArePlural()
 		{
-            foreach (Table table in IncludedTables())
-            {
-                //TODO: remove this
-                if (!table.Name.StartsWith("dtbl"))
+			foreach (Table table in IncludedTables())
+			{
+				//TODO: remove this
+				if (!table.Name.StartsWith("dtbl"))
 				{
 					Assert.That(table.Name, Is.StringEnding("s"));
 				}
@@ -93,10 +93,10 @@ namespace DatabaseMigraine.Tests
 		[Test]
 		public virtual void TableFirstColumnEndsWithId()
 		{
-            foreach (Table table in IncludedTables())
-            {
-                //TODO: confirm this:
-                if (!table.Name.StartsWith("dtbl"))
+			foreach (Table table in IncludedTables())
+			{
+				//TODO: confirm this:
+				if (!table.Name.StartsWith("dtbl"))
 				{
 					//TODO: remove the "ToLower" call
 					Assert.That(table.Columns[0].Name.ToLower(), Is.StringEnding("id"),
@@ -108,10 +108,10 @@ namespace DatabaseMigraine.Tests
 		[Test]
 		public virtual void TableFirstColumnIsPrimaryKey()
 		{
-            foreach (Table table in IncludedTables())
-            {
-                //TODO: confirm this:
-                if (!table.Name.StartsWith("dtbl"))
+			foreach (Table table in IncludedTables())
+			{
+				//TODO: confirm this:
+				if (!table.Name.StartsWith("dtbl"))
 				{
 					Assert.That(table.Columns[0].InPrimaryKey, Is.True,
 						String.Format("First column {0} of table {1} should be in Primary Key", table.Columns[0].Name, table.Name));
@@ -126,11 +126,11 @@ namespace DatabaseMigraine.Tests
 		public virtual void TableFirstColumnIsTableName()
 		{
 			//var offending = new Dictionary<Column, Table>();
-            foreach (Table table in IncludedTables())
+			foreach (Table table in IncludedTables())
 			{
-                //TODO: remove this:
-                if (!table.Name.StartsWith("dtbl") &&
-                    //TODO: confirm this:					
+				//TODO: remove this:
+				if (!table.Name.StartsWith("dtbl") &&
+					//TODO: confirm this:					
 					!table.Name.StartsWith("lnk"))
 				{
 					Column firstColumn = table.Columns[0];
@@ -170,10 +170,10 @@ namespace DatabaseMigraine.Tests
 		public virtual void ColumnsEndingWithIdShouldBeForeignOrPrimaryKey()
 		{
 			//var offending = new Dictionary<Column, Table>();
-            foreach (Table table in IncludedTables())
-            {
-                //TODO: confirm this:
-                if (!table.Name.StartsWith("dtbl"))
+			foreach (Table table in IncludedTables())
+			{
+				//TODO: confirm this:
+				if (!table.Name.StartsWith("dtbl"))
 				{
 					foreach(Column column in table.Columns)
 					{
@@ -206,10 +206,10 @@ namespace DatabaseMigraine.Tests
 		[Test]
 		public virtual void ColumnsBeingForeignOrPrimaryKeyShouldEndWithId()
 		{
-            foreach (Table table in IncludedTables())
-            {
-                //TODO: confirm this:
-                if (!table.Name.StartsWith("dtbl"))
+			foreach (Table table in IncludedTables())
+			{
+				//TODO: confirm this:
+				if (!table.Name.StartsWith("dtbl"))
 				{
 					foreach (Column column in table.Columns)
 					{
@@ -227,8 +227,8 @@ namespace DatabaseMigraine.Tests
 		[Test]
 		public void FindOutSmellyManyToManyTables ()
 		{
-            foreach (Table table in IncludedTables())
-            {
+			foreach (Table table in IncludedTables())
+			{
 				var idColumnNames = new List<string>();
 				foreach (Column column in table.Columns)
 				{
@@ -247,7 +247,7 @@ namespace DatabaseMigraine.Tests
 
 				var orderedIdColumnNames = from columnName in idColumnNames orderby columnName.Length select columnName;
 				if (orderedIdColumnNames.ElementAt(0) + orderedIdColumnNames.ElementAt(1) == orderedIdColumnNames.ElementAt(2) ||
-				    orderedIdColumnNames.ElementAt(1) + orderedIdColumnNames.ElementAt(0) == orderedIdColumnNames.ElementAt(2))
+					orderedIdColumnNames.ElementAt(1) + orderedIdColumnNames.ElementAt(0) == orderedIdColumnNames.ElementAt(2))
 				{
 					Assert.Fail(
 						String.Format("The table {0} seems to be a many-to-many relationship that has an unneeded column called {1}.",
@@ -262,20 +262,20 @@ namespace DatabaseMigraine.Tests
 		public virtual void BeConsistentWrtCaseOfId ()
 		{
 			var counts = new Dictionary<string, List<Column>>();
-            foreach (Table table in IncludedTables())
+			foreach (Table table in IncludedTables())
 			{
-                foreach (Column column in table.Columns)
+				foreach (Column column in table.Columns)
 				{
 					if (column.Name.ToLower().EndsWith("id") &&
 						!column.Name.ToLower().EndsWith("guid"))
 					{
 						string twoChars = column.Name.Substring(column.Name.Length - "id".Length, "id".Length);
 						if (!counts.ContainsKey(twoChars)) 
-                        {
+						{
 							counts[twoChars] = new List<Column> { column };
 						} 
-                        else 
-                        {
+						else 
+						{
 							counts[twoChars].Add(column);
 						}
 					}
@@ -317,19 +317,19 @@ namespace DatabaseMigraine.Tests
 			}
 			Assert.That(counts.Keys.Count, Is.EqualTo(1),
 				String.Format("It's not clear if you're using 'ID', 'Id', 'id' or 'iD'. The most used is: '{0}' ({1})." + 
-                    " Least used is '{2}' ({3}) and the occurrences are:{4}", 
-                    maxCount.Key, maxCount.Value.Count, minCount.Key, minCount.Value.Count, leastUsed));
+					" Least used is '{2}' ({3}) and the occurrences are:{4}", 
+					maxCount.Key, maxCount.Value.Count, minCount.Key, minCount.Value.Count, leastUsed));
 		}
 
-        private IEnumerable<Table> IncludedTables()
-        {
-            foreach (Table table in DisposableDb.Tables)
-            {
-                if (!Discard(table.Name))
-                {
-                    yield return table;
-                }
-            }
-        }
+		private IEnumerable<Table> IncludedTables()
+		{
+			foreach (Table table in DisposableDb.Tables)
+			{
+				if (!Discard(table.Name))
+				{
+					yield return table;
+				}
+			}
+		}
 	}
 }
