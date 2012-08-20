@@ -10,3 +10,4 @@ bin
 *.dbproj.*
 /src/player/sql/
 *.dotCover
+/packages/*/**
