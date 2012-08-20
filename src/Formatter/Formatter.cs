@@ -331,9 +331,9 @@ namespace Formatter
 
 		private static string TreatKeywordGo(string contents) {
 			contents = contents.Replace(" GO ",
-			                            Environment.NewLine + "GO" + 
-			                            Environment.NewLine +
-			                            Environment.NewLine);
+										Environment.NewLine + "GO" + 
+										Environment.NewLine +
+										Environment.NewLine);
 			return contents;
 		}
 

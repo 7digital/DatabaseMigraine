@@ -15,7 +15,6 @@ namespace DatabaseMigraine.DatabaseElements
 				}
 				yield return new StoredProcedureElement(storedProcedure);
 			}
-			yield break;
 		}
 	}
 }

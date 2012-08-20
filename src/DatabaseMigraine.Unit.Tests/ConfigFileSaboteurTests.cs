@@ -25,7 +25,7 @@ namespace DatabaseMigraine.Unit.Tests
 			string result = ConfigFileSaboteur.SabotageContent(SomeContentOfConfigFile, originalDbName, newDbName);
 
 			string expected = SomeContentOfConfigFile.Replace(String.Format("Initial Catalog={0};", originalDbName), 
-			                                                  String.Format("Initial Catalog={0};", newDbName));
+															  String.Format("Initial Catalog={0};", newDbName));
 
 			Assert.That(result, Is.EqualTo(expected));
 		}
@@ -38,9 +38,9 @@ namespace DatabaseMigraine.Unit.Tests
 			string result = ConfigFileSaboteur.SabotageContent(SomeContentOfConfigFile, originalDbName, newDbName);
 
 			string expected = SomeContentOfConfigFile.Replace("Initial Catalog=someDbName_some_suffix;",
-			                                                  String.Format("Initial Catalog={0};", newDbName));
+															  String.Format("Initial Catalog={0};", newDbName));
 			expected = expected.Replace("Initial Catalog=someDbName;",
-			                            String.Format("Initial Catalog={0};", newDbName));
+										String.Format("Initial Catalog={0};", newDbName));
 
 			Assert.That(result, Is.EqualTo(expected));
 		}

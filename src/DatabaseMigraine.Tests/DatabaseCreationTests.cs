@@ -80,6 +80,5 @@ namespace DatabaseMigraine.Tests
 		{
 			DisposableDbManager.KillDb(DisposableDbServer, DisposableDbManager.GetCreatedDb(DbName));
 		}
-
 	}
 }

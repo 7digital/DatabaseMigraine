@@ -9,12 +9,12 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach(Table table in db.Tables)
 			{
-				if (table.IsSystemObject) {
+				if (table.IsSystemObject) 
+                {
 					continue;
 				}
 				yield return new TableElement(table);
 			}
-			yield break;
 		}
 	}
 }

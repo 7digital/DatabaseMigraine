@@ -111,7 +111,7 @@ namespace DatabaseMigraine
 				.RunScripts(_disposableDbServer, _dbScriptsPath, disposableDbName, _dbNameInVcs, migrationWhiteList);
 			if (migrationWhiteList != null && migrationCount < migrationWhiteList.Count())
 				throw new Exception(String.Format("There was some kind of problem and {0} migrations were applied instead of {1}. First migration requested was {2}.",
-				                                  migrationCount, migrationWhiteList.Count(), migrationWhiteList.First()));
+												  migrationCount, migrationWhiteList.Count(), migrationWhiteList.First()));
 			Console.WriteLine("Successfully applied {0} migrations", migrationCount);
 		}
 
@@ -198,11 +198,11 @@ namespace DatabaseMigraine
 
 			if (script.Contains(originalDbName))
 				throw new Exception(String.Format("The script {0} contains the database name hardcoded '{1}'",
-				                    databaseCreationScript.Name, originalDbName));
+									databaseCreationScript.Name, originalDbName));
 
 			if (script.Contains(":\\"))
 				throw new Exception(String.Format("The script {0} contains the hardcoded paths, replace them with 'dbpath'",
-				                    databaseCreationScript.Name));
+									databaseCreationScript.Name));
 
 			string dbname = string.Format("{0}{1}_{2}", DELETEME_PREFIX, originalDbName, GetNormalizedDate());
 			if (!string.IsNullOrEmpty(suffix))
@@ -236,30 +236,30 @@ namespace DatabaseMigraine
 		}
 
 		[Obsolete("Please use KillDb() in your TearDown instead of DropDisposableDatabases in your SetUp")]
-        public void DropDisposableDatabases(uint maxDaysOld)
+		public void DropDisposableDatabases(uint maxDaysOld)
 		{
 			DropDbs(maxDaysOld);
 		}
 
 		public void DropDbs(uint maxDaysOld) {
-            string lastDatabaseCreated = _databasesCreated.LastOrDefault().Value;
+			string lastDatabaseCreated = _databasesCreated.LastOrDefault().Value;
 
-            var disposableDbsToDrop = new List<Database>();
+			var disposableDbsToDrop = new List<Database>();
 			_disposableDbServer.Refresh();
-            foreach(Database db in _disposableDbServer.Databases)
-            {
+			foreach(Database db in _disposableDbServer.Databases)
+			{
 				if(IsDbDisposable(db) && !db.Name.Equals(lastDatabaseCreated))
 				{
 					DateTime dateDt = GetDateFromDisposableDbName(db);
-                    if(DateTime.Now.AddDays(0.0 - maxDaysOld) > dateDt)
-                    {
-                        disposableDbsToDrop.Add(db);
-                    }
-                }
-            }
+					if(DateTime.Now.AddDays(0.0 - maxDaysOld) > dateDt)
+					{
+						disposableDbsToDrop.Add(db);
+					}
+				}
+			}
 
-            foreach (Database db in disposableDbsToDrop)
-            {
+			foreach (Database db in disposableDbsToDrop)
+			{
 				Console.WriteLine("Killing DB '{0}'...", db.Name);
 				KillDb(_disposableDbServer, db.Name);
 			}

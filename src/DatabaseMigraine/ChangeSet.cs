@@ -66,11 +66,11 @@ namespace DatabaseMigraine
 				string lastElement = Modified.Keys.Last();
 
 				info += String.Format(differencesMsg,
-				                      Modified.Count,
-				                      Environment.NewLine,
-				                      elementList,
-				                      lastElement,
-				                      typeof (T).Name);
+									  Modified.Count,
+									  Environment.NewLine,
+									  elementList,
+									  lastElement,
+									  typeof (T).Name);
 			}
 
 

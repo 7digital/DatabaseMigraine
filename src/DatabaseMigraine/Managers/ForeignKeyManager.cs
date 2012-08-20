@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 
 namespace DatabaseMigraine.Managers
@@ -48,7 +47,7 @@ namespace DatabaseMigraine.Managers
 				var offSet = currentContent.IndexOf(contentToRemove);
 
 				string contentToWrite = currentContent.Substring(0, offSet) +
-				                        currentContent.Substring(offSet + contentToRemove.Length);
+										currentContent.Substring(offSet + contentToRemove.Length);
 
 				if (contentToWrite.Trim().Length == 0)
 				{

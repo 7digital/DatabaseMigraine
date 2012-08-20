@@ -92,7 +92,7 @@ namespace DatabaseMigraine.Tests
 
 				dbWithMigrationMerged = lonelyCreator.CreateCompleteDisposableDbWithMigrations(new string[0]);
 				changes = DbComparer.CompareDatabases(_disposableDbServer.Databases[dbPlusMigration], _disposableDbServer.Databases[dbWithMigrationMerged],
-				                                      DatabaseComparisonTests.DefaultSanitizeForComparison);
+													  DatabaseComparisonTests.DefaultSanitizeForComparison);
 			} finally {
 				Cleanup(dbPlusMigration, dbWithMigrationMerged);
 			}

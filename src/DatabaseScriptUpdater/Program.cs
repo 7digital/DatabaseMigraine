@@ -48,7 +48,7 @@ namespace DatabaseScriptUpdater
 			if (!Directory.Exists(migrationFolder))
 			{
 				Console.Error.WriteLine("There is no {0} folder in {1}.",
-				                        _migrationManager.FolderName, _paramsParsed.DbPath);
+										_migrationManager.FolderName, _paramsParsed.DbPath);
 				Environment.Exit((int)DbParams.ExitStatus.Ok);
 			}
 
@@ -115,7 +115,7 @@ namespace DatabaseScriptUpdater
 			});
 
 			var changes = DbComparer.CompareDatabases(disposableDbServer.Databases[baseDb],
-			                                          disposableDbServer.Databases[baseDbPlusMigration]);
+													  disposableDbServer.Databases[baseDbPlusMigration]);
 
 			bool migrationMerged = ManageChanges(migration, changes, dbScriptsPath);
 
@@ -128,12 +128,12 @@ namespace DatabaseScriptUpdater
 
 			if (migrationMerged) {
 				VerifyChanges(migration, 
-				              disposableDbServer.Databases[baseDbWithModifiedScripts],
-				              disposableDbServer.Databases[baseDbPlusMigration]);
+							  disposableDbServer.Databases[baseDbWithModifiedScripts],
+							  disposableDbServer.Databases[baseDbPlusMigration]);
 				Console.WriteLine("Changes from migration were merged into the scripts, you can commit then now, and run the program again for the next migration");
 			} else {
 				VerifyChanges(disposableDbServer.Databases[baseDbWithModifiedScripts],
-				              disposableDbServer.Databases[baseDb]);
+							  disposableDbServer.Databases[baseDb]);
 				Console.WriteLine("Modified scripts are safe, you can now commit your changes and run this program again");
 			}
 		}
