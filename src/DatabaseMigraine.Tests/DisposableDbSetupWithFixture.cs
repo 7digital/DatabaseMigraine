@@ -2,7 +2,7 @@
 
 namespace DatabaseMigraine.Tests
 {
-	public abstract class DisposableDbTestBase : DisposableDbSetUp
+	public abstract class DisposableDbSetupWithFixture : DisposableDbSetUp
 	{
 		[TestFixtureSetUp]
 		public override void SetupDisposableDb()
