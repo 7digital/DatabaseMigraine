@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DatabaseMigraine.Tools</id>
+    <version>1.0.0</version>
+    <authors>Andres Aragoneses</authors>
+    <owners>7Digital</owners>
+    <licenseUrl>http://opensource.org/licenses/rpl1.5.txt</licenseUrl>
+    <projectUrl>http://github.com/7digital/DatabaseMigraine</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A SQL server database consistency and comparison testing tools. Commandline tools for creating databases, running SQL scripts, and generating migrations across different environments.</description>
+    <releaseNotes>Inital nuspec package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>SQL database consistency testing checking tools</tags>
+    <dependencies>
+       <dependency id="DatabaseMigraine" version="1.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\DatabaseCreator\bin\release\DatabaseCreator.exe" target="tools" />   
+    <file src="src\DatabaseCreator\bin\release\DatabaseCreator.exe.config" target="tools" />   
+    <file src="src\DatabaseMigrator\bin\release\DatabaseMigrator.exe" target="tools" />   
+    <file src="src\DatabaseScripter\bin\release\DatabaseScripter.exe" target="tools" />   
+    <file src="src\DatabaseScriptRunner\bin\release\DatabaseScriptRunner.exe" target="tools" />   
+    <file src="src\DatabaseScriptUpdater\bin\release\DatabaseScriptUpdater.exe" target="tools" />   
+    <file src="src\DatabaseScriptUpdater\bin\release\DatabaseScriptUpdater.exe.config" target="tools" />   
+    <file src="src\DatabaseUpdater\bin\release\DatabaseUpdater.exe" target="tools" />   
+  </files>
+</package>
