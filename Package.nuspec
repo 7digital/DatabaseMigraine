@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DatabaseMigraine</id>
+    <version>1.0.0</version>
+    <authors>Andres Aragoneses</authors>
+    <owners>7Digital</owners>
+    <licenseUrl>http://opensource.org/licenses/rpl1.5.txt</licenseUrl>
+    <projectUrl>http://github.com/7digital/DatabaseMigraine</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A database consistency and comparison testing tool</description>
+    <releaseNotes>Inital nuspec package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>database consistency testing checking</tags>
+    <dependencies>
+       <dependency id="NUnit" version="2.6.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\DatabaseBisect\bin\release\DatabaseBisect.dll" target="lib\net35" />   
+    <file src="src\DatabaseBisect.Tests\bin\release\DatabaseBisect.Tests.dll" target="lib\net35" />   
+    <file src="src\DatabaseCreator\bin\release\DatabaseCreator.exe" target="lib\net35" />   
+    <file src="src\DatabaseCreator\bin\release\DatabaseCreator.exe.config" target="lib\net35" />   
+    <file src="src\DatabaseMigraine\bin\release\DatabaseMigraine.dll" target="lib\net35" />   
+    <file src="src\DatabaseMigraine.Tests\bin\release\DatabaseMigraine.Tests.dll" target="lib\net35" />   
+    <file src="src\DatabaseMigrator\bin\release\DatabaseMigrator.dll" target="lib\net35" />   
+    <file src="src\DatabaseScripter\bin\release\DatabaseScripter.exe" target="lib\net35" />   
+    <file src="src\DatabaseScripter.Tests\bin\release\DatabaseScripter.Tests.dll" target="lib\net35" />   
+    <file src="src\DatabaseScriptRunner\bin\release\DatabaseScriptRunner.exe" target="lib\net35" />   
+    <file src="src\DatabaseScriptUpdater\bin\release\DatabaseScriptUpdater.exe" target="lib\net35" />   
+    <file src="src\DatabaseScriptUpdater\bin\release\DatabaseScriptUpdater.exe.config" target="lib\net35" />   
+    <file src="src\DatabaseUpdater\bin\release\DatabaseUpdater.exe" target="lib\net35" />   
+    <file src="src\Formatter\bin\release\Formatter.dll" target="lib\net35" />   
+  </files>
+</package>
