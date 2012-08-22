@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DatabaseMigraine.Tests</id>
+    <version>1.0.0</version>
+    <authors>Andres Aragoneses</authors>
+    <owners>7Digital</owners>
+    <licenseUrl>http://opensource.org/licenses/rpl1.5.txt</licenseUrl>
+    <projectUrl>http://github.com/7digital/DatabaseMigraine</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A SQL server database consistency and comparison testing tool. Base classes for testing database consistency in different environments.</description>
+    <releaseNotes>Inital nuspec package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>SQL database consistency testing tests checking</tags>
+    <dependencies>
+       <dependency id="NUnit" version="2.6.1" />
+       <dependency id="DatabaseMigraine" version="1.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\DatabaseMigraine.Tests\bin\release\DatabaseMigraine.Tests.dll" target="lib\net35" />   
+  </files>
+</package>

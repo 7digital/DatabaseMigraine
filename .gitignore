@@ -11,3 +11,4 @@ bin
 /src/player/sql/
 *.dotCover
 packages/*/**
+*.nupkg
