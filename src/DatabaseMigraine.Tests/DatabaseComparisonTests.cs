@@ -9,8 +9,8 @@ using DatabaseMigraine.Managers;
 
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-
 using NUnit.Framework;
+
 
 namespace DatabaseMigraine.Tests
 {
@@ -40,7 +40,6 @@ namespace DatabaseMigraine.Tests
 		private string _referenceDbHostname;
 		protected string ReferenceConnectionString;
 
-		[TestFixtureSetUp]
 		public override void SetupConnections()
 		{
 			base.SetupConnections();

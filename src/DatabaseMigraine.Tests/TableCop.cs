@@ -13,8 +13,7 @@ namespace DatabaseMigraine.Tests
 
 		protected Database DisposableDb;
 
-		[TestFixtureSetUp]
-		public void CreateDisposableDb ()
+		public virtual void CreateDisposableDb()
 		{
 			string dbCreationPath = ConfigurationManager.AppSettings["DbCreationPath"];
 			Server server = DatabaseCreationTests.GetDisposableDbServer();
