@@ -40,6 +40,7 @@ namespace DatabaseMigraine.Tests
 		private string _referenceDbHostname;
 		protected string ReferenceConnectionString;
 
+		[TestFixtureSetUp]
 		public override void SetupConnections()
 		{
 			base.SetupConnections();

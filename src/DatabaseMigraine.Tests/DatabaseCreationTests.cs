@@ -23,6 +23,7 @@ namespace DatabaseMigraine.Tests
 			return new Server(GetDisposableServerConn());
 		}
 
+		[TestFixtureSetUp]
 		public virtual void SetupConnections()
 		{
 			_dbCreationPath = ConfigurationManager.AppSettings["DbCreationPath"];
@@ -74,6 +75,7 @@ namespace DatabaseMigraine.Tests
 			_disposableDbManager.DropDbs(DB_MAX_DAYS_OLD);
 		}
 
+		[TestFixtureTearDown]
 		public virtual void KillDisposableDbs()
 		{
 			DisposableDbManager.KillDb(DisposableDbServer, DisposableDbManager.GetCreatedDb(DbName));
