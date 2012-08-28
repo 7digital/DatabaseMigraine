@@ -140,7 +140,7 @@ namespace DatabaseMigraine
 		internal static void CheckEncodingConvention(FileInfo script)
 		{
 			string charSet;
-			if (!Formatter.Formatter.IsEncodingGrepable(script, out charSet))
+			if (!Formatter.IsEncodingGrepable(script, out charSet))
 			{
 				throw new NotSupportedException(
 					String.Format("The file {0} has the encoding {1} which is not easily grep-able, please use the DatabaseScripter on the folder to fix this",

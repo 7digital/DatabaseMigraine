@@ -49,6 +49,9 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="Ude">
+      <HintPath>..\..\packages\UDE.CSharp.1.0.0\lib\Ude.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeSet.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="DbScriptFolderManager.cs" />
     <Compile Include="DisposableDbManager.cs" />
     <Compile Include="Folders.cs" />
+    <Compile Include="Formatter.cs" />
     <Compile Include="Managers\ChiefExecutive.cs" />
     <Compile Include="Managers\ForeignKeyManager.cs" />
     <Compile Include="Managers\FunctionManager.cs" />
@@ -94,12 +98,8 @@
     <Compile Include="SqlExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{FD65ECBC-3E52-471E-B5E5-B90BBB59EB98}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DatabaseMigraine.Managers;
+using Formatter = DatabaseMigraine.Formatter;
 
 
 namespace DatabaseScripter
@@ -104,7 +105,7 @@ namespace DatabaseScripter
 
 		private static void RestoreDefaultEncodingThatIsGrepable(FileInfo destFileName)
 		{
-			if (Formatter.Formatter.IsEncodingGrepable(destFileName))
+			if (Formatter.IsEncodingGrepable(destFileName))
 				return;
 
 			//this seems lame but it works

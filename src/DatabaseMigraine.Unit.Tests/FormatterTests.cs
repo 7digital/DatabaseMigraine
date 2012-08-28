@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Formatter.Unit.Tests
+namespace DatabaseMigraine.Unit.Tests
 {
 	[TestFixture]
 	public class FormatterTests

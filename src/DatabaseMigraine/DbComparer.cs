@@ -30,7 +30,7 @@ namespace DatabaseMigraine
 
 		public static string DefaultScriptSanitizer(string contents)
 		{
-			return Formatter.Formatter.ContractEols(contents.Trim());
+			return Formatter.ContractEols(contents.Trim());
 		}
 
 		public static ChangeSet<T> CompareDatabases<T, F>(Database baseDatabaseBefore, Database databaseAfter)

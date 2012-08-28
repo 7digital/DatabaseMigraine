@@ -44,7 +44,7 @@ namespace DatabaseMigraine
 
 		private static string SanitizeByTrimming(string scriptContents)
 		{
-			return Formatter.Formatter.ReplaceEveryBlankWithASpace(scriptContents.Trim());
+			return Formatter.ReplaceEveryBlankWithASpace(scriptContents.Trim());
 		}
 
 		//FIXME: experiment about removing this Sanitize, because our scripts should mimic exactly what SqlServer outputs

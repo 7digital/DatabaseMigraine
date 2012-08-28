@@ -72,10 +72,6 @@
       <Project>{071DC959-B560-472D-802E-510C66F6A267}</Project>
       <Name>DatabaseMigraine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{FD65ECBC-3E52-471E-B5E5-B90BBB59EB98}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
