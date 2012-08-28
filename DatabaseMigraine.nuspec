@@ -17,7 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="src\DatabaseMigraine\bin\release\DatabaseMigraine.dll" target="lib\net35" />   
-    <file src="src\Formatter\bin\release\Formatter.dll" target="lib\net35" />   
+    <file src="src\DatabaseMigraine\bin\release\DatabaseMigraine.dll" target="lib\net35" />
   </files>
 </package>
