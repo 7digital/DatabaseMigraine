@@ -14,6 +14,7 @@
     <tags>SQL database consistency testing checking tools</tags>
     <dependencies>
        <dependency id="DatabaseMigraine" version="1.0.0" />
+	   <dependency id="UDE.CSharp" version="1.0.0" />
     </dependencies>
   </metadata>
   <files>
