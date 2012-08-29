@@ -19,28 +19,37 @@ namespace DatabaseCreator
 				Console.WriteLine("Please supply the name of database(s) you wish to create.");
 				Console.WriteLine();
 				Console.WriteLine("Optionally in the 2nd argument, specify a config file to sabotage with:");
-				Console.WriteLine("--config:/path/to/config.file");
+				Console.WriteLine("--config:\"/path/to/first.config.file{0}/path/to/second.config.file\"",
+				                  Path.PathSeparator);
 				Console.WriteLine("To Exit Press Any Key");
 				Console.Read();
 				Environment.Exit(0);
 			}
 
-			string configFile = null;
+			string[] configFiles = null;
 			if (args.Length > 1)
 			{
-				string path = args[1].Substring(args[1].IndexOf(":") + 1);
-				if (!File.Exists(path))
+				string paths = args[1].Substring(args[1].IndexOf(":") + 1);
+
+				configFiles = paths.Split(Path.PathSeparator);
+				foreach(var configFile in configFiles)
 				{
-					throw new FileNotFoundException(path);
+					Console.WriteLine(configFile);
+					if (!File.Exists(configFile))
+					{
+						throw new FileNotFoundException(configFile);
+					}
 				}
-				configFile = path;
 			}
 
 			string disposableDbName = CreateDatabase(args[0]);
 
-			if (!String.IsNullOrEmpty(configFile))
+			if (configFiles != null)
 			{
-				ConfigFileSaboteur.Sabotage(configFile, args[0], disposableDbName);
+				foreach(var configFile in configFiles)
+				{
+					ConfigFileSaboteur.Sabotage(configFile, args[0], disposableDbName);
+				}
 			}
 			Environment.Exit(0);
 		}
