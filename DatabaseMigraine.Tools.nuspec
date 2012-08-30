@@ -26,6 +26,9 @@
     <file src="src\DatabaseScriptUpdater\bin\release\DatabaseScriptUpdater.exe" target="tools" />   
     <file src="src\DatabaseScriptUpdater\bin\release\DatabaseScriptUpdater.exe.config" target="tools" />   
     <file src="src\DatabaseUpdater\bin\release\DatabaseUpdater.exe" target="tools" />
+    <file src="lib\Microsoft.SqlServer.Smo.dll" target="lib\net35" />
+    <file src="lib\Microsoft.SqlServer.Management.Sdk.Sfc.dll" target="lib\net35" />
+    <file src="lib\Microsoft.SqlServer.ConnectionInfo.dll" target="lib\net35" />
 	
 	<!-- workaround for http://danlimerick.wordpress.com/2011/10/01/getting-around-nugets-external-package-dependency-problem/ -->
 	<file src="README.txt" target="content" />   
