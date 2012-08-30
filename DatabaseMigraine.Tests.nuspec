@@ -19,5 +19,8 @@
   </metadata>
   <files>
     <file src="src\DatabaseMigraine.Tests\bin\release\DatabaseMigraine.Tests.dll" target="lib\net35" />   
+    <file src="lib\Microsoft.SqlServer.Smo.dll" target="lib\net35" />
+    <file src="lib\Microsoft.SqlServer.Management.Sdk.Sfc.dll" target="lib\net35" />
+    <file src="lib\Microsoft.SqlServer.ConnectionInfo.dll" target="lib\net35" />
   </files>
 </package>
