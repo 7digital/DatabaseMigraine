@@ -9,13 +9,28 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach (UserDefinedFunction function in db.UserDefinedFunctions)
 			{
-				if (function.IsSystemObject)
-				{
+				if (IsSystemObject(function))
 					continue;
-				}
+
 				yield return new FunctionElement(function);
 			}
 			yield break;
 		}
+
+		private static bool IsSystemObject(UserDefinedFunction function)
+		{
+			try
+			{
+				if (function.IsSystemObject)
+				{
+					return true;
+				}
+			}
+			catch (UnknownPropertyException)
+			{
+			}
+			return false;
+		}
+
 	}
 }

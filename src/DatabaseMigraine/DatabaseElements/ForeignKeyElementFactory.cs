@@ -9,10 +9,8 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach (Table table in db.Tables)
 			{
-				if (table.IsSystemObject)
-				{
+				if (TableElementFactory.IsSystemObject(table))
 					continue;
-				}
 
 				foreach (ForeignKey fk in table.ForeignKeys)
 				{

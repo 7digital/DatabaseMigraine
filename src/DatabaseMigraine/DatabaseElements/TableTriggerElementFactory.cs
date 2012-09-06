@@ -9,21 +9,34 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach (Table table in db.Tables)
 			{
-				if (table.IsSystemObject)
-				{
+				if (TableElementFactory.IsSystemObject(table))
 					continue;
-				}
 
 				foreach (Trigger trigger in table.Triggers)
 				{
-					if (trigger.IsSystemObject)
-					{
+					if (IsSystemObject(trigger))
 						continue;
-					}
+
 					yield return new TableTriggerElement(trigger);
 				}
 			}
 			yield break;
 		}
+
+		internal static bool IsSystemObject(Trigger trigger)
+		{
+			try
+			{
+				if (trigger.IsSystemObject)
+				{
+					return true;
+				}
+			}
+			catch (UnknownPropertyException)
+			{
+			}
+			return false;
+		}
+
 	}
 }

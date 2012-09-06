@@ -9,14 +9,27 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach (DatabaseDdlTrigger trigger in db.Triggers)
 			{
-				if (trigger.IsSystemObject)
-				{
+				if (IsSystemObject(trigger))
 					continue;
-				}
 
 				yield return new DatabaseTriggerElement(trigger);
 			}
 			yield break;
+		}
+
+		private static bool IsSystemObject(DatabaseDdlTrigger trigger)
+		{
+			try
+			{
+				if (trigger.IsSystemObject)
+				{
+					return true;
+				}
+			}
+			catch (UnknownPropertyException)
+			{
+			}
+			return false;
 		}
 	}
 }
