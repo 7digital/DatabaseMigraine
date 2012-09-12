@@ -9,28 +9,13 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach (View view in db.Views)
 			{
-				if (IsSystemObject(view))
+				if (view.IsSystemObject)
+				{
 					continue;
-
+				}
 				yield return new ViewElement(view);
 			}
 			yield break;
 		}
-
-		internal static bool IsSystemObject(View view)
-		{
-			try
-			{
-				if (view.IsSystemObject)
-				{
-					return true;
-				}
-			}
-			catch (UnknownPropertyException)
-			{
-			}
-			return false;
-		}
-
 	}
 }

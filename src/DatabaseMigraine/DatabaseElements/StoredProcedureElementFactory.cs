@@ -9,27 +9,13 @@ namespace DatabaseMigraine.DatabaseElements
 		{
 			foreach (StoredProcedure storedProcedure in db.StoredProcedures)
 			{
-				if (IsSystemObject(storedProcedure))
+				if (storedProcedure.IsSystemObject)
+				{
 					continue;
-
+				}
 				yield return new StoredProcedureElement(storedProcedure);
 			}
 			yield break;
-		}
-
-		private static bool IsSystemObject(StoredProcedure storedProcedure)
-		{
-			try
-			{
-				if (storedProcedure.IsSystemObject)
-				{
-					return true;
-				}
-			}
-			catch (UnknownPropertyException)
-			{
-			}
-			return false;
 		}
 	}
 }
