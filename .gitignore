@@ -12,3 +12,4 @@ bin
 *.dotCover
 packages/*/**
 *.nupkg
+*.ncrunch*

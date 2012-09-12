@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DatabaseMigraine.Managers;
+using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
 namespace DatabaseMigraine
@@ -16,23 +18,20 @@ namespace DatabaseMigraine
 		private readonly static Dictionary<string, string> _databasesCreated = new Dictionary<string, string>();
 
 		private static string _dbCreationPath;
-		private readonly Server _disposableDbServer;
-		private readonly SqlExecutor _sqlExecutor;
-		private readonly string _dbNameInVcs;
+		private Server _disposableDbServer;
+		private SqlExecutor _sqlExecutor;
+		private string _dbNameInVcs;
 		private string _dbScriptsPath;
 
 		public bool AllowCreatingSameDb { get; set; }
 
 		public DisposableDbManager(string dbCreationPath, Server disposableDbServer, string dbNameInVcs)
 		{
-			_dbCreationPath = dbCreationPath;
-			_disposableDbServer = disposableDbServer;
-			_sqlExecutor = new SqlExecutor(_disposableDbServer);
-			_dbNameInVcs = dbNameInVcs;
+			InitialiseDbManager(dbCreationPath, disposableDbServer, dbNameInVcs);
 		}
 
-		public DisposableDbManager(string dbCreationPath, Server disposableDbServer, string dbNameInVcs, string dbScriptsPath):
-			this (dbCreationPath, disposableDbServer, dbNameInVcs)
+		public DisposableDbManager(string dbCreationPath, Server disposableDbServer, string dbNameInVcs, string dbScriptsPath) :
+			this(dbCreationPath, disposableDbServer, dbNameInVcs)
 		{
 			if (!Directory.Exists(dbScriptsPath))
 			{
@@ -45,6 +44,28 @@ namespace DatabaseMigraine
 			}
 
 			_dbScriptsPath = dbScriptsPath;
+		}
+
+		public DisposableDbManager(string dbCreationPath, string connectionString, string dbNameInVcs)
+		{
+			var disposableDbServer = CreaterServerFromConnectionString(connectionString);
+			InitialiseDbManager(dbCreationPath, disposableDbServer, dbNameInVcs);
+		}
+
+		private static Server CreaterServerFromConnectionString(string connectionString)
+		{
+			var sqlConnection = new SqlConnection(connectionString);
+			var serverConnection = new ServerConnection(sqlConnection);
+			var disposableDbServer = new Server(serverConnection);
+			return disposableDbServer;
+		}
+
+		private void InitialiseDbManager(string dbCreationPath, Server disposableDbServer, string dbNameInVcs)
+		{
+			_dbCreationPath = dbCreationPath;
+			_disposableDbServer = disposableDbServer;
+			_sqlExecutor = new SqlExecutor(_disposableDbServer);
+			_dbNameInVcs = dbNameInVcs;
 		}
 
 		public string CreateCompleteDisposableDb()
@@ -68,8 +89,10 @@ namespace DatabaseMigraine
 
 		private string CreateDisposableDb(bool includeProgrammabilityAndViews, IEnumerable<string> migrationWhiteList, string prefix)
 		{
-			if (!AllowCreatingSameDb) {
-				if (_databasesCreated.Keys.Contains(_dbNameInVcs)) {
+			if (!AllowCreatingSameDb)
+			{
+				if (_databasesCreated.Keys.Contains(_dbNameInVcs))
+				{
 					return _databasesCreated[_dbNameInVcs];
 				}
 			}
@@ -83,11 +106,13 @@ namespace DatabaseMigraine
 
 			CreateSchema(_dbScriptsPath, disposableDbName);
 
-			if (!AllowCreatingSameDb) {
+			if (!AllowCreatingSameDb)
+			{
 				_databasesCreated[_dbNameInVcs] = disposableDbName;
 			}
 
-			if (includeProgrammabilityAndViews) {
+			if (includeProgrammabilityAndViews)
+			{
 				CreateEvilBusinessLogic(_dbNameInVcs, _dbScriptsPath, disposableDbName);
 			}
 
@@ -111,7 +136,7 @@ namespace DatabaseMigraine
 				.RunScripts(_disposableDbServer, _dbScriptsPath, disposableDbName, _dbNameInVcs, migrationWhiteList);
 			if (migrationWhiteList != null && migrationCount < migrationWhiteList.Count())
 				throw new Exception(String.Format("There was some kind of problem and {0} migrations were applied instead of {1}. First migration requested was {2}.",
-				                                  migrationCount, migrationWhiteList.Count(), migrationWhiteList.First()));
+												  migrationCount, migrationWhiteList.Count(), migrationWhiteList.First()));
 			Console.WriteLine("Successfully applied {0} migrations", migrationCount);
 		}
 
@@ -150,7 +175,8 @@ namespace DatabaseMigraine
 			string currentPath = Directory.GetCurrentDirectory();
 			Console.WriteLine("Looking for path of scripts for database {0}, starting in {1}", dbNameInVcs, currentPath);
 
-			while (true) {
+			while (true)
+			{
 				Console.WriteLine("Looking for path in " + currentPath);
 				string dbScriptsPath = Path.Combine(currentPath, dbNameInVcs);
 				if (Directory.Exists(dbScriptsPath))
@@ -175,9 +201,10 @@ namespace DatabaseMigraine
 
 				var directories = currentPath.Split(new[] { Path.DirectorySeparatorChar });
 				var dotdotcount = directories.Count(dir => dir == "..");
-				if (dotdotcount > (directories.Length / 2)) {
+				if (dotdotcount > (directories.Length / 2))
+				{
 					throw new Exception(String.Format(
-						"No *.sql files found, did you forget to populate your git submodule? (via `git submodule update --init`)" + 
+						"No *.sql files found, did you forget to populate your git submodule? (via `git submodule update --init`)" +
 						" Current directory is {0}, current path is {1} and dbScriptsPath is {2}",
 						Directory.GetCurrentDirectory(), currentPath, dbScriptsPath));
 				}
@@ -186,7 +213,8 @@ namespace DatabaseMigraine
 			}
 		}
 
-		private string CreateDb(string originalDbName, string dbScriptsPath, bool createLogins, string suffix) {
+		private string CreateDb(string originalDbName, string dbScriptsPath, bool createLogins, string suffix)
+		{
 			string creationDbScriptPath = Path.Combine(dbScriptsPath, "00_Database");
 
 			var databaseCreationScript = new FileInfo(Path.Combine(creationDbScriptPath, "Database.sql"));
@@ -198,11 +226,11 @@ namespace DatabaseMigraine
 
 			if (script.Contains(originalDbName))
 				throw new Exception(String.Format("The script {0} contains the database name hardcoded '{1}'",
-				                    databaseCreationScript.Name, originalDbName));
+									databaseCreationScript.Name, originalDbName));
 
 			if (script.Contains(":\\"))
 				throw new Exception(String.Format("The script {0} contains the hardcoded paths, replace them with 'dbpath'",
-				                    databaseCreationScript.Name));
+									databaseCreationScript.Name));
 
 			string dbname = string.Format("{0}{1}_{2}", DELETEME_PREFIX, originalDbName, GetNormalizedDate());
 			if (!string.IsNullOrEmpty(suffix))
@@ -215,7 +243,8 @@ namespace DatabaseMigraine
 
 			_sqlExecutor.ExecuteNonQuery(script);
 
-			if (createLogins && loginsCreationScript.Exists) {
+			if (createLogins && loginsCreationScript.Exists)
+			{
 				DbScriptFolderManager.CheckEncodingConvention(loginsCreationScript);
 				script = File.ReadAllText(loginsCreationScript.FullName);
 				_sqlExecutor.ExecuteNonQuery(script, dbname);
@@ -224,11 +253,21 @@ namespace DatabaseMigraine
 			return dbname;
 		}
 
+		public static void KillDb(string connectionString)
+		{
+			var databaseName = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+			var disposableDbServer = CreaterServerFromConnectionString(connectionString);
+			KillDb(disposableDbServer, databaseName);
+		}
+
 		public static void KillDb(Server disposableDbServer, string dbName)
 		{
-			try {
+			try
+			{
 				disposableDbServer.ConnectionContext.ExecuteNonQuery(String.Format("ALTER DATABASE {0} SET RESTRICTED_USER WITH ROLLBACK IMMEDIATE", dbName));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				Console.Error.WriteLine(e);
 			}
 
@@ -236,30 +275,31 @@ namespace DatabaseMigraine
 		}
 
 		[Obsolete("Please use KillDb() in your TearDown instead of DropDisposableDatabases in your SetUp")]
-        public void DropDisposableDatabases(uint maxDaysOld)
+		public void DropDisposableDatabases(uint maxDaysOld)
 		{
 			DropDbs(maxDaysOld);
 		}
 
-		public void DropDbs(uint maxDaysOld) {
-            string lastDatabaseCreated = _databasesCreated.LastOrDefault().Value;
+		public void DropDbs(uint maxDaysOld)
+		{
+			string lastDatabaseCreated = _databasesCreated.LastOrDefault().Value;
 
-            var disposableDbsToDrop = new List<Database>();
+			var disposableDbsToDrop = new List<Database>();
 			_disposableDbServer.Refresh();
-            foreach(Database db in _disposableDbServer.Databases)
-            {
-				if(IsDbDisposable(db) && !db.Name.Equals(lastDatabaseCreated))
+			foreach (Database db in _disposableDbServer.Databases)
+			{
+				if (IsDbDisposable(db) && !db.Name.Equals(lastDatabaseCreated))
 				{
 					DateTime dateDt = GetDateFromDisposableDbName(db);
-                    if(DateTime.Now.AddDays(0.0 - maxDaysOld) > dateDt)
-                    {
-                        disposableDbsToDrop.Add(db);
-                    }
-                }
-            }
+					if (DateTime.Now.AddDays(0.0 - maxDaysOld) > dateDt)
+					{
+						disposableDbsToDrop.Add(db);
+					}
+				}
+			}
 
-            foreach (Database db in disposableDbsToDrop)
-            {
+			foreach (Database db in disposableDbsToDrop)
+			{
 				Console.WriteLine("Killing DB '{0}'...", db.Name);
 				KillDb(_disposableDbServer, db.Name);
 			}
@@ -289,7 +329,7 @@ namespace DatabaseMigraine
 			return nameAndDate.Substring(0, nameAndDate.IndexOf("_"));
 		}
 
-		public static bool IsDbDisposable (Database db)
+		public static bool IsDbDisposable(Database db)
 		{
 			return db.Name.StartsWith(DELETEME_PREFIX);
 		}

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ConfigFileSaboteurTests.cs" />
     <Compile Include="DatabaseCreationWithSuffixTests.cs" />
+    <Compile Include="DisposableDbManagerTests.cs" />
     <Compile Include="ExternalElements.cs" />
     <Compile Include="FormatterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
