@@ -68,6 +68,17 @@ namespace DatabaseMigraine.Tests
 			ReferenceConnectionString = String.Format("{0}Server={1};", referenceDbConnString, _referenceDbHostname);
 
 			_referenceServer = new Server(new ServerConnection(new SqlConnection(ReferenceConnectionString)));
+
+			if (!_referenceServer.Databases.Contains(DifferentDbNameInReferenceEnvironment))
+			{
+				Assert.Fail("Database {0} was not found in server {1}", DifferentDbNameInReferenceEnvironment, _referenceServer.Name);
+			}
+			if (_referenceServer.Databases[DifferentDbNameInReferenceEnvironment].Tables.Count == 0)
+			{
+				Assert.Fail("No tables found in database {0} of server {1}, are you sure you have the proper permissions?{2}(connection string is {3})",
+					DifferentDbNameInReferenceEnvironment, _referenceServer.Name, Environment.NewLine, referenceDbConnString);
+			}
+
 			_scriptsPath = DisposableDbManager.FindDatabaseScriptsPath(DbName);
 			_migrationsInStagingForReferenceEnvironment =
 				new MigrationManager().GetNonRetiredMigrationsRunInDb(_scriptsPath, _referenceServer, DifferentDbNameInReferenceEnvironment).ToArray();
