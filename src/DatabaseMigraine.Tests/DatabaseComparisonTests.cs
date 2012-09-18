@@ -73,7 +73,8 @@ namespace DatabaseMigraine.Tests
 			{
 				Assert.Fail("Database {0} was not found in server {1}", DifferentDbNameInReferenceEnvironment, _referenceServer.Name);
 			}
-			if (_referenceServer.Databases[DifferentDbNameInReferenceEnvironment].Tables.Count == 0)
+			var tables = _referenceServer.Databases[DifferentDbNameInReferenceEnvironment].Tables;
+			if (tables.Count == 0 || tables.Cast<Table>().All (t => t.IsSystemObject))
 			{
 				Assert.Fail("No tables found in database {0} of server {1}, are you sure you have the proper permissions?{2}(connection string is {3})",
 					DifferentDbNameInReferenceEnvironment, _referenceServer.Name, Environment.NewLine, referenceDbConnString);
