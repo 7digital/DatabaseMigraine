@@ -39,8 +39,10 @@ namespace DatabaseMigraine.Managers
 			if (!migrationSqlFilesInVcs.Any())
 				yield break;
 
+
+			CheckIfDatabaseChangeLogTableExists(dbServer.Databases[dbname]);
+
 			var sqlExecutor = new SqlExecutor(dbServer);
-			CheckIfDatabaseChangeLogTableExists(sqlExecutor, dbname);
 
 			//FIXME: use hashes, not filenames!
 			using (SqlDataReader reader = sqlExecutor.ExecuteQuery(String.Format(
@@ -87,9 +89,8 @@ namespace DatabaseMigraine.Managers
 		                               string originalDbName,
 		                               IEnumerable<string> scriptFileNameWhiteList)
 		{
-			SqlExecutor = new SqlExecutor(disposableDbServer);
 			if (GetSqlSriptsIn(dbScriptsPath).Any())
-				CheckIfDatabaseChangeLogTableExists(SqlExecutor, dbname);
+				CheckIfDatabaseChangeLogTableExists(disposableDbServer.Databases[dbname]);
 			return base.RunScripts(disposableDbServer, dbScriptsPath, dbname, originalDbName, scriptFileNameWhiteList);
 		}
 
@@ -271,8 +272,7 @@ END CATCH
 
 		public int GenerateMigrations(DirectoryInfo dbScriptsPath, string dbname, Server server, DirectoryInfo outPath)
 		{
-			SqlExecutor = new SqlExecutor(server);
-			CheckIfDatabaseChangeLogTableExists(SqlExecutor, dbname);
+			CheckIfDatabaseChangeLogTableExists(server.Databases[dbname]);
 
 			Console.WriteLine("Looking for migrations in {0}", dbScriptsPath);
 
@@ -283,16 +283,11 @@ END CATCH
 			return GenerateMigrationsContentsToDisk(scripts, outPath, dbname);
 		}
 
-		private static void CheckIfDatabaseChangeLogTableExists(SqlExecutor sqlExecutor, string dbname) {
-
-			//FIXME: use Smo API instead of sys.tables, to check this
-			using (var result = sqlExecutor.ExecuteQuery(String.Format(
-				"SELECT * FROM sys.tables WHERE name = '{0}'", DatabaseChangeLogTableName), dbname))
-			{
-				if (!result.HasRows)
-				{
-					string msg = String.Format("Table {0} not found in database {1}, please run this script on it:", DatabaseChangeLogTableName, dbname);
-					string script = String.Format(@"
+		private static void CheckIfDatabaseChangeLogTableExists(Database database)
+		{
+			if (!database.Tables.Contains(DatabaseChangeLogTableName)) {
+				string msg = String.Format("Table {0} not found in database {1}, please run this script on it:", DatabaseChangeLogTableName, database.Name);
+				string script = String.Format(@"
 CREATE TABLE [dbo].[{0}](
 	[ChangeLogId] [INT] NOT NULL,
 	[FileName] [NVARCHAR](256) NOT NULL,
@@ -320,12 +315,11 @@ ALTER TABLE [dbo].[{0}]
 GO
 ", DatabaseChangeLogTableName);
 
-					Console.Error.WriteLine(msg);
-					Console.Error.WriteLine(script);
-					Console.Error.WriteLine();
+				Console.Error.WriteLine(msg);
+				Console.Error.WriteLine(script);
+				Console.Error.WriteLine();
 
-					throw new InvalidOperationException(msg + script);
-				}
+				throw new InvalidOperationException(msg + script);
 			}
 		}
 
