@@ -90,7 +90,15 @@ namespace DatabaseMigraine.Managers
 		                               IEnumerable<string> scriptFileNameWhiteList)
 		{
 			if (GetSqlSriptsIn(dbScriptsPath).Any())
-				CheckIfDatabaseChangeLogTableExists(disposableDbServer.Databases[dbname]);
+			{
+				var db = disposableDbServer.Databases[dbname];
+				if (db == null)
+				{
+					disposableDbServer.Refresh();
+					db = disposableDbServer.Databases[dbname];
+				}
+				CheckIfDatabaseChangeLogTableExists(db);
+			}
 			return base.RunScripts(disposableDbServer, dbScriptsPath, dbname, originalDbName, scriptFileNameWhiteList);
 		}
 
