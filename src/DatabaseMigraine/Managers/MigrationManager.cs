@@ -91,15 +91,16 @@ namespace DatabaseMigraine.Managers
 		{
 			if (GetSqlSriptsIn(dbScriptsPath).Any())
 			{
-				var db = disposableDbServer.Databases[dbname];
-				if (db == null)
+				if (!disposableDbServer.Databases.Contains(dbname))
 				{
-					disposableDbServer.Databases.Refresh();
-					db = disposableDbServer.Databases[dbname];
-					if (db == null)
+					disposableDbServer.Refresh();
+					disposableDbServer.Databases.Refresh(true);
+					disposableDbServer.Refresh();
+					disposableDbServer.Databases.Refresh(true);
+					if (!disposableDbServer.Databases.Contains(dbname))
 						throw new InvalidOperationException(String.Format("Database {0} not found in server {1}", dbname, disposableDbServer));
 				}
-				CheckIfDatabaseChangeLogTableExists(db);
+				CheckIfDatabaseChangeLogTableExists(disposableDbServer.Databases[dbname]);
 			}
 			return base.RunScripts(disposableDbServer, dbScriptsPath, dbname, originalDbName, scriptFileNameWhiteList);
 		}
