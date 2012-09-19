@@ -96,6 +96,8 @@ namespace DatabaseMigraine.Managers
 				{
 					disposableDbServer.Refresh();
 					db = disposableDbServer.Databases[dbname];
+					if (db == null)
+						throw new InvalidOperationException(String.Format("Database {0} not found in server {1}", dbname, disposableDbServer));
 				}
 				CheckIfDatabaseChangeLogTableExists(db);
 			}
