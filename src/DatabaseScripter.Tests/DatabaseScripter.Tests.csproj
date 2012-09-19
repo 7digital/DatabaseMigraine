@@ -37,14 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSeparationTests.cs" />
     <Compile Include="AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DatabaseScripter\DatabaseScripter.csproj">
-      <Project>{5FAEE6FC-A130-44C0-95F3-774A1E60B358}</Project>
-      <Name>DatabaseScripter</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
