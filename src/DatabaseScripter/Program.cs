@@ -39,19 +39,13 @@ namespace DatabaseScripter
 				{
 					string targetFilePath = FindDestination(sqlFile);
 
-					if (String.IsNullOrEmpty(targetFilePath)) {
-						if (Directory.Exists(targetFilePath) || File.Exists(targetFilePath))
-						{
-							Console.Error.WriteLine("Warning, could not move because target file already exists: " + targetFilePath);
-						} else {
-							Move(sqlFile, targetFilePath);
-						}
-					}
-					else
+					if (Directory.Exists(targetFilePath) || File.Exists(targetFilePath))
 					{
-						File.Create(Path.Combine(sqlFile.Directory.FullName, "blah.sql"));
-						File.Create(Path.Combine(sqlFile.Directory.FullName, "blah2.sql"));
+						Console.Error.WriteLine("Warning, could not move because target file already exists: " + targetFilePath);
+					} else {
+						Move(sqlFile, targetFilePath);
 					}
+					RestoreDefaultEncodingThatIsGrepable(new FileInfo(targetFilePath));
 				}
 			}
 			catch (Exception e)
@@ -68,8 +62,6 @@ namespace DatabaseScripter
 			} else {
 				File.Move(sourceFileName.FullName, destFileName);
 			}
-
-			RestoreDefaultEncodingThatIsGrepable(new FileInfo(destFileName));
 		}
 
 		private static bool IsGit()
