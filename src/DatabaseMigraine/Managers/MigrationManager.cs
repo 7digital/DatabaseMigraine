@@ -286,7 +286,7 @@ END CATCH
 		private static void CheckIfDatabaseChangeLogTableExists(Database database)
 		{
 			if (database == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("database");
 
 			if (!database.Tables.Contains(DatabaseChangeLogTableName)) {
 				string msg = String.Format("Table {0} not found in database {1}, please run this script on it:", DatabaseChangeLogTableName, database.Name);
