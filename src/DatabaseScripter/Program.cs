@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using DatabaseMigraine.Managers;
 using Formatter = DatabaseMigraine.Formatter;
 
@@ -15,11 +14,7 @@ namespace DatabaseScripter
 
 		static void Main(string[] args)
 		{
-			if (args.Length > 0)
-				_pathToWorkOn = args[0];
-			else
-				_pathToWorkOn = Directory.GetCurrentDirectory();
-
+			_pathToWorkOn = args[0];
 			var dir = new DirectoryInfo(_pathToWorkOn);
 
 			if (!dir.Exists)
@@ -44,18 +39,13 @@ namespace DatabaseScripter
 				{
 					string targetFilePath = FindDestination(sqlFile);
 
-					if (String.IsNullOrEmpty(targetFilePath)) {
-						if (Directory.Exists(targetFilePath) || File.Exists(targetFilePath))
-						{
-							Console.Error.WriteLine("Warning, could not move because target file already exists: " + targetFilePath);
-						} else {
-							Move(sqlFile, targetFilePath);
-						}
-					}
-					else
+					if (Directory.Exists(targetFilePath) || File.Exists(targetFilePath))
 					{
-						CreateTableWriter.SeparateCreateTableStatementsToSeparateFiles(File.ReadAllText(sqlFile.FullName));
+						Console.Error.WriteLine("Warning, could not move because target file already exists: " + targetFilePath);
+					} else {
+						Move(sqlFile, targetFilePath);
 					}
+					RestoreDefaultEncodingThatIsGrepable(new FileInfo(targetFilePath));
 				}
 			}
 			catch (Exception e)
@@ -65,9 +55,6 @@ namespace DatabaseScripter
 			}
 		}
 
-		
-
-
 		static void Move (FileInfo sourceFileName, string destFileName)
 		{
 			if (IsGit()) {
@@ -75,8 +62,6 @@ namespace DatabaseScripter
 			} else {
 				File.Move(sourceFileName.FullName, destFileName);
 			}
-
-			RestoreDefaultEncodingThatIsGrepable(new FileInfo(destFileName));
 		}
 
 		private static bool IsGit()
