@@ -93,9 +93,6 @@ namespace DatabaseMigraine.Managers
 			{
 				if (!disposableDbServer.Databases.Contains(dbname))
 				{
-					disposableDbServer.Refresh();
-					disposableDbServer.Databases.Refresh(true);
-					disposableDbServer.Refresh();
 					disposableDbServer.Databases.Refresh(true);
 					if (!disposableDbServer.Databases.Contains(dbname))
 						throw new InvalidOperationException(String.Format("Database {0} not found in server {1}", dbname, disposableDbServer));
