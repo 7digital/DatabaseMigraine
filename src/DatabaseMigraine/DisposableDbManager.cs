@@ -23,6 +23,9 @@ namespace DatabaseMigraine
 		private string _dbNameInVcs;
 		private string _dbScriptsPath;
 
+		public string FixedDatabaseName { get; set; }
+
+
 		public bool AllowCreatingSameDb { get; set; }
 
 		public DisposableDbManager(string dbCreationPath, Server disposableDbServer, string dbNameInVcs)
@@ -96,12 +99,12 @@ namespace DatabaseMigraine
 					return _databasesCreated[_dbNameInVcs];
 				}
 			}
-
-			Console.WriteLine("Attempting to create db {0}...", _dbNameInVcs);
+			
 			if (_dbScriptsPath == null)
 				_dbScriptsPath = FindDatabaseScriptsPath(_dbNameInVcs).FullName;
 			Console.WriteLine("Scripts found in {0}", _dbScriptsPath);
 			string disposableDbName = CreateDb(_dbNameInVcs, _dbScriptsPath, true, prefix);
+			
 			Console.WriteLine("Successfully created {0} database with name {1}", _dbNameInVcs, disposableDbName);
 
 			CreateSchema(_dbScriptsPath, disposableDbName);
@@ -232,12 +235,8 @@ namespace DatabaseMigraine
 				throw new Exception(String.Format("The script {0} contains the hardcoded paths, replace them with 'dbpath'",
 									databaseCreationScript.Name));
 
-			string dbname = string.Format("{0}{1}_{2}", DELETEME_PREFIX, originalDbName, GetNormalizedDate());
-			if (!string.IsNullOrEmpty(suffix))
-			{
-				dbname += "_" + suffix;
-			}
-
+			var dbname = GetDbName(originalDbName, suffix);
+			Console.WriteLine("Attempting to create db {0} as {1} on server {2}...", _dbNameInVcs, dbname, _disposableDbServer);
 			script = script.Replace("dbpath", _dbCreationPath);
 			script = SqlExecutor.ReplaceDbnameInScript(script, dbname);
 
@@ -253,11 +252,27 @@ namespace DatabaseMigraine
 			return dbname;
 		}
 
+
 		public static void KillDb(string connectionString)
 		{
 			var databaseName = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
 			var disposableDbServer = CreaterServerFromConnectionString(connectionString);
 			KillDb(disposableDbServer, databaseName);
+		}
+
+		private string GetDbName(string originalDbName, string suffix)
+		{
+			if (string.IsNullOrEmpty(FixedDatabaseName))
+			{
+				string dbname = string.Format("{0}{1}_{2}", DELETEME_PREFIX, originalDbName, GetNormalizedDate());
+				if (!string.IsNullOrEmpty(suffix))
+				{
+					dbname += "_" + suffix;
+				}
+				return dbname;
+			}
+			return FixedDatabaseName;
+
 		}
 
 		public static void KillDb(Server disposableDbServer, string dbName)

@@ -17,7 +17,7 @@ namespace DatabaseCreator
 			try
 			{
 
-				if (args.Length < 1 || args.Length > 2 || (args.Length == 2 && !args[1].Contains("--config:")))
+				if (args.Length < 1 || args.Length > 2 || (args.Length == 2 && !args[1].Contains("--config:") && !args[1].Contains("--databaseName:")))
 				{
 					Console.WriteLine("Please supply the name of database(s) you wish to create.");
 					Console.WriteLine();
@@ -26,11 +26,11 @@ namespace DatabaseCreator
 									  Path.PathSeparator);
 					Console.WriteLine("To Exit Press Any Key");
 					Console.Read();
-					Environment.Exit(0);
+					Environment.Exit(1);
 				}
 
 				string[] configFiles = null;
-				if (args.Length > 1)
+				if (args[1].Contains("--config:"))
 				{
 					string paths = args[1].Substring(args[1].IndexOf(":") + 1);
 
@@ -45,15 +45,24 @@ namespace DatabaseCreator
 					}
 				}
 
-				string disposableDbName = CreateDatabase(args[0]);
 
-				if (configFiles != null)
+				if (args[1].Contains("--databaseName:"))
 				{
-					foreach (var configFile in configFiles)
+					CreateDatabase(args[0], args[1].Substring(args[1].IndexOf(":") + 1));
+				}
+				else
+				{
+					string disposableDbName = CreateDatabase(args[0],string.Empty);
+
+					if (args[1].Contains("--config:"))
 					{
-						ConfigFileSaboteur.Sabotage(configFile, args[0], disposableDbName);
+						foreach (var configFile in configFiles)
+						{
+							ConfigFileSaboteur.Sabotage(configFile, args[0], disposableDbName);
+						}
 					}
 				}
+
 				Environment.Exit(0);
 
 			}
@@ -64,11 +73,18 @@ namespace DatabaseCreator
 			}
 		}
 
-		private static string CreateDatabase(string dbNameInVcs)
+		private static string CreateDatabase(string dbNameInVcs,string fixedDatabaseName)
 		{
 			var disposableDbServer = ConnectionHelper.Connect(DisposableDbHostname, DisposableDbConnString);
 
 			var disposableDbCreator = new DisposableDbManager(DbCreationPath, disposableDbServer, dbNameInVcs);
+			if(!String.IsNullOrEmpty(fixedDatabaseName))
+			{
+				DisposableDbManager.KillDb(disposableDbServer,fixedDatabaseName);
+				disposableDbCreator.FixedDatabaseName = fixedDatabaseName;	
+			}
+
+			
 
 			string disposableDbName = disposableDbCreator.CreateCompleteDisposableDb();
 			Console.WriteLine(disposableDbName);
