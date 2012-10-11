@@ -260,8 +260,7 @@ namespace DatabaseMigraine.Tests
 
 		private bool GenericDiscard<T>(T dbElement) where T : IScriptableDatabaseElementWithName
 		{
-			return dbElement.Name.ToLower().StartsWith(DbScriptFolderManager.TempPrefix) ||
-			       dbElement.Name.ToLower().StartsWith(DbScriptFolderManager.DbaPrefix)  ||
+			return DbScriptFolderManager.ReservedPrefixes.Any(reservedPrefix => dbElement.Name.ToLower().StartsWith(reservedPrefix)) ||
 			       Discard(dbElement);
 		}
 
