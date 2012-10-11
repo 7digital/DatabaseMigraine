@@ -154,9 +154,7 @@ namespace DatabaseMigraine
 			CheckNameNotMatchingElementViolation(elementNameToScriptContents);
 		}
 
-		public const string TempPrefix = "tmp";
-
-		public const string DbaPrefix = "dba_";
+		public static readonly IEnumerable<string> ReservedPrefixes = new[] { "tmp", "dba_", "needsapp_" }; 
 
 		private static string CheckScriptNameConventions(FileInfo script)
 		{
@@ -173,14 +171,13 @@ namespace DatabaseMigraine
 					"No script should start with the '{0}' prefix, please use DatabaseScripter to transform into Migrator structure: {1}", dboPrefix, elementName));
 			}
 
-			if (elementName.ToLower().StartsWith(TempPrefix)) {
-				throw new ArgumentException(String.Format(
-					"Elements with the prefix '{0}' are reserved for DBA use, not development: {1}", TempPrefix, elementName));
-			}
-
-			if (elementName.ToLower().StartsWith(DbaPrefix)) {
-				throw new ArgumentException(String.Format(
-					"Elements with the prefix '{0}' are reserved for DBA use, not development: {1}", DbaPrefix, elementName));
+			foreach (var reservedPrefix in ReservedPrefixes)
+			{
+				if (elementName.ToLower().StartsWith(reservedPrefix))
+				{
+					throw new ArgumentException(String.Format(
+						"Elements with the prefix '{0}' are reserved for DBA use, not development: {1}", reservedPrefix, elementName));
+				}
 			}
 
 			return elementName;
