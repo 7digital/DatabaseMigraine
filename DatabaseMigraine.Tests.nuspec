@@ -13,7 +13,7 @@
     <copyright>Copyright 2012</copyright>
     <tags>SQL database consistency testing tests checking</tags>
     <dependencies>
-       <dependency id="NUnit" version="2.6.1" />
+       <dependency id="NUnit" version="2.6.2" />
        <dependency id="DatabaseMigraine" version="1.0.0" />
     </dependencies>
   </metadata>
