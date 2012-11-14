@@ -30,7 +30,9 @@ namespace DatabaseCreator
 				}
 
 				string[] configFiles = null;
-				if (args[1].Contains("--config:"))
+
+
+				if (args.Length > 1 && args[1].Contains("--config:"))
 				{
 					string paths = args[1].Substring(args[1].IndexOf(":") + 1);
 
@@ -46,7 +48,7 @@ namespace DatabaseCreator
 				}
 
 
-				if (args[1].Contains("--databaseName:"))
+				if (args.Length > 1 && args[1].Contains("--databaseName:"))
 				{
 					CreateDatabase(args[0], args[1].Substring(args[1].IndexOf(":") + 1));
 				}
@@ -54,7 +56,7 @@ namespace DatabaseCreator
 				{
 					string disposableDbName = CreateDatabase(args[0],string.Empty);
 
-					if (args[1].Contains("--config:"))
+					if (args.Length > 1 && args[1].Contains("--config:"))
 					{
 						foreach (var configFile in configFiles)
 						{
