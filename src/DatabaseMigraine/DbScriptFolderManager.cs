@@ -217,14 +217,7 @@ namespace DatabaseMigraine
 			{
 				string contents = script.Value;
 
-				if (!contents
-					
-					//this is kind-of-hack to prevent this kind of elements: [MusicEncyclopedia].[tblAlbums]
-					.Replace("[", String.Empty).Replace("]", String.Empty)
-					//the hack ends here :)
-
-					.Contains(script.Key)) {
-
+				if (!contents.Contains(script.Key)) {
 					violators.Add(script.Key);
 					if (String.IsNullOrEmpty(firstViolatorContent))
 					{
