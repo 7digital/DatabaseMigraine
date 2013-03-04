@@ -61,9 +61,9 @@ namespace DatabaseMigraine
 			{
 				string elementList = string.Join(Environment.NewLine, Modified.Keys.ToArray());
 
-				const string differencesMsg = "{0} {4}s are different: {1}{2}{1}.{1} Last difference is in element [{3}]:";
+				const string differencesMsg = "{0} {4}s are different: {1}{2}{1}.{1} First difference is in element [{3}]:";
 
-				string lastElement = Modified.Keys.Last();
+				string lastElement = Modified.Keys.First();
 
 				info += String.Format(differencesMsg,
 				                      Modified.Count,

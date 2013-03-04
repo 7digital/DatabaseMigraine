@@ -287,8 +287,8 @@ namespace DatabaseMigraine.Tests
 			if (changeSet.Modified.Count > 0)
 			{
 				Assert.AreEqual(
-					SanitizeForComparison(changeSet.Modified.Last().Value.After.ScriptContents), 
-					SanitizeForComparison(changeSet.Modified.Last().Value.Before.ScriptContents),
+					SanitizeForComparison(changeSet.Modified.First().Value.After.ScriptContents), 
+					SanitizeForComparison(changeSet.Modified.First().Value.Before.ScriptContents),
 					context + changeSet);
 			} else {
 				Assert.Fail(context + changeSet);
