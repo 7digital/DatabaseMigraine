@@ -53,12 +53,15 @@ namespace DatabaseMigraine
 
 			foreach (KeyValuePair<string, T> elementBefore in beforeElements)
 			{
+				if (discard != null && discard(elementBefore.Value))
+				{
+					continue;
+				}
+
 				T afterElement;
 				if (!afterElements.TryGetValue(elementBefore.Key, out afterElement))
 				{
-					if (discard == null || !discard(elementBefore.Value)) {
-						changeSet.Removed.Add(elementBefore.Key, elementBefore.Value);
-					}
+					changeSet.Removed.Add(elementBefore.Key, elementBefore.Value);
 					continue;
 				}
 
