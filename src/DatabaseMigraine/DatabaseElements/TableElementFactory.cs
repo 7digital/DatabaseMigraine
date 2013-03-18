@@ -14,7 +14,6 @@ namespace DatabaseMigraine.DatabaseElements
 				}
 				yield return new TableElement(table);
 			}
-			yield break;
 		}
 	}
 }
