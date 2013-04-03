@@ -277,6 +277,11 @@ namespace DatabaseMigraine
 
 		public static void KillDb(Server disposableDbServer, string dbName)
 		{
+			if (!disposableDbServer.Databases.Contains(dbName))
+			{
+				Console.Error.WriteLine("Warning: DB {0} to kill was not present; ignoring", dbName);
+				return;
+			}
 			try
 			{
 				disposableDbServer.ConnectionContext.ExecuteNonQuery(String.Format("ALTER DATABASE {0} SET RESTRICTED_USER WITH ROLLBACK IMMEDIATE", dbName));
